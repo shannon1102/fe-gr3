@@ -19,14 +19,24 @@ export default function Rightbar({ user }) {
   useEffect(() => {
     const getFriends = async () => {
       try {
-        const friendList = await axios.get("/users/friends/" + user._id);
-        setFriends(friendList.data);
+        const params = new URLSearchParams({
+          token: currentUser.data.token,
+          user_id: currentUser.data.id,
+          index: 0,
+          count: 50,
+        }).toString();
+        const uri =
+          `${process.env.REACT_APP_BASE_URL}/friend/get_user_friends?` + params;
+        axios.post(uri);
+        const friendList = await axios.post(uri);
+        console.log("friendList: ", friendList);
+        setFriends(friendList.data.data.friends);
       } catch (err) {
         console.log(err);
       }
     };
     getFriends();
-  }, [user]);
+  }, [currentUser]);
 
   const handleClick = async () => {
     try {
@@ -42,8 +52,7 @@ export default function Rightbar({ user }) {
         dispatch({ type: "FOLLOW", payload: user._id });
       }
       setFollowed(!followed);
-    } catch (err) {
-    }
+    } catch (err) {}
   };
 
   const HomeRightbar = () => {
@@ -67,6 +76,7 @@ export default function Rightbar({ user }) {
   };
 
   const ProfileRightbar = () => {
+    console.log("fiends", friends);
     return (
       <>
         {user.username !== currentUser.username && (
@@ -79,18 +89,18 @@ export default function Rightbar({ user }) {
         <div className="rightbarInfo">
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">City:</span>
-            <span className="rightbarInfoValue">{user.city}</span>
+            <span className="rightbarInfoValue">{user?.city}</span>
           </div>
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">From:</span>
-            <span className="rightbarInfoValue">{user.from}</span>
+            <span className="rightbarInfoValue">{user?.from}</span>
           </div>
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">Relationship:</span>
             <span className="rightbarInfoValue">
               {user.relationship === 1
                 ? "Single"
-                : user.relationship === 1
+                : user?.relationship === 1
                 ? "Married"
                 : "-"}
             </span>
@@ -98,10 +108,11 @@ export default function Rightbar({ user }) {
         </div>
         <h4 className="rightbarTitle">User friends</h4>
         <div className="rightbarFollowings">
-          {friends.map((friend) => (
+          {friends?.map((friend) => (
             <Link
               to={"/profile/" + friend.username}
               style={{ textDecoration: "none" }}
+              key={friend.id}
             >
               <div className="rightbarFollowing">
                 <img

@@ -28,7 +28,7 @@ export default function Share() {
       token: user.data.token
     }).toString();
     const url =
-    "https://social-be-2022.herokuapp.com/balo/post/add_post?" +
+    `${process.env.REACT_APP_BASE_URL}post/add_post?` +
     params;
 
     if (file) {
@@ -64,7 +64,7 @@ export default function Share() {
             className="shareProfileImg"
             src={
               user.data.avatar
-                ? PF + user.data.avatar
+                ? user.data.avatar
                 : PF + "person/noAvatar.png"
             }
             alt=""

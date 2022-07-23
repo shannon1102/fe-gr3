@@ -3,12 +3,13 @@ import axios from "axios";
 export const loginCall = async (userCredential, dispatch) => {
   dispatch({ type: "LOGIN_START" });
   try {
+    console.log("BASEURLLLL",process.env.REACT_APP_BASE_URL);
     const params = new URLSearchParams({
       phonenumber: userCredential.phoneNumber,
       password: userCredential.password
     }).toString();
     const url =
-    "https://social-be-2022.herokuapp.com/balo/auth/login?" +
+    `${process.env.REACT_APP_BASE_URL}/auth/login?` +
     params;
     const res = await axios.post(url, userCredential);
     console.log('res: ', res);

@@ -19,7 +19,7 @@ export default function Feed({ username }) {
         index:0
       }).toString();
       const url =
-      "https://social-be-2022.herokuapp.com/balo/post/get_list_posts?" + params;
+      `${process.env.REACT_APP_BASE_URL}/post/get_list_posts?` + params;
       const res = username
       ? await axios.post(url)
       : await axios.post(url);

@@ -3,22 +3,42 @@ import Topbar from "../../components/topbar/Topbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Feed from "../../components/feed/Feed";
 import Rightbar from "../../components/rightbar/Rightbar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Profile() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [user, setUser] = useState({});
-  const username = useParams().username;
-
+  const userID = useParams().user_id;
+  const { user: currentUser } = useContext(AuthContext);
+  // useEffect(() => {
+  //   const params = new URLSearchParams({
+  //     token: currentUser.data.token,
+  //     user_id: currentUser.data.id,
+  //   }).toString();
+  //   const url =  `${peocess.env.REACT_APP_PUBLIC_FOLDER}/user/get_user_info?`+ params
+  //   const getUserInfo = async () => {
+  //     const res = await axios.post(url);
+  //     setUser(res.data);
+  //   };
+  // },[username]);
   useEffect(() => {
+    console.log("dadadad value", userID)
+    console.log("dadadad",typeof userID)
+    const params = new URLSearchParams({
+          token: currentUser.data.token,
+          user_id: userID,
+        }).toString();
+        const url =  `${process.env.REACT_APP_BASE_URL}/user/get_user_info?`+ params
     const fetchUser = async () => {
-      const res = await axios.get(`/users?username=${username}`);
-      setUser(res.data);
+      const res = await axios.post(url);
+      console.log('res get Info: ', res.data);
+      setUser(res.data.data);
     };
     fetchUser();
-  }, [username]);
+  }, [userID,currentUser]);
 
   return (
     <>
@@ -31,8 +51,8 @@ export default function Profile() {
               <img
                 className="profileCoverImg"
                 src={
-                  user.coverPicture
-                    ? PF + user.coverPicture
+                  user.cover_image
+                    ? user.cover_image
                     : PF + "person/noCover.png"
                 }
                 alt=""
@@ -40,20 +60,20 @@ export default function Profile() {
               <img
                 className="profileUserImg"
                 src={
-                  user.profilePicture
-                    ? PF + user.profilePicture
+                  user.avatar
+                    ? user.avatar
                     : PF + "person/noAvatar.png"
                 }
                 alt=""
               />
             </div>
             <div className="profileInfo">
-              <h4 className="profileInfoName">{user.username}</h4>
-              <span className="profileInfoDesc">{user.desc}</span>
+              <h4 className="profileInfoName">{user.name}</h4>
+              <span className="profileInfoDesc">{user.description}</span>
             </div>
           </div>
           <div className="profileRightBottom">
-            <Feed username={username} />
+            <Feed username={userID} />
             <Rightbar user={user} />
           </div>
         </div>

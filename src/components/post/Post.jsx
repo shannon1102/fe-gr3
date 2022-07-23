@@ -11,12 +11,8 @@ export default function Post({ post }) {
   const [isLiked, setIsLiked] = useState(post.is_liked);
   const [user, setUser] = useState({});
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  console.log("PF: ", PF);
   const { user: currentUser } = useContext(AuthContext);
 
-  // useEffect(() => {
-  //   setIsLiked(post.is_liked);
-  // }, [currentUser.data.token, post.like, post.is_liked]);
 
   useEffect(() => {
     setUser(post.author);
@@ -29,7 +25,7 @@ export default function Post({ post }) {
         token: currentUser.data.token,
       }).toString();
       const uri =
-        "https://social-be-2022.herokuapp.com/balo/like/like?" + params;
+        `${process.env.REACT_APP_REACT_APP_BASE_URL}/like/like?` + params;
       axios.post(uri);
     } catch (err) {
       console.log(err)
@@ -37,7 +33,6 @@ export default function Post({ post }) {
     setLike(isLiked === "1" ? parseInt(like) - 1 : parseInt(like) + 1);
     setIsLiked(isLiked === "0" ? "1" : "0");
   };
-  console.log("isLiked",isLiked)
   return (
     <div className="post">
       <div className="postWrapper">
