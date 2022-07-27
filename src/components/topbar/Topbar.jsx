@@ -1,8 +1,11 @@
 import "./topbar.css";
-import { Search, Person, Chat, Notifications } from "@material-ui/icons";
+import { Search, Person, Chat, Notifications, ArrowDropDown } from "@material-ui/icons";
+
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import LogoutDropDown from "./logoutDropDown/LogoutDropDown";
+// import Popup from "../post/popup/PostHandlePopup";
 
 export default function Topbar() {
   const { user } = useContext(AuthContext);
@@ -54,6 +57,8 @@ export default function Topbar() {
             className="topbarImg"
           />
         </Link>
+        <LogoutDropDown currentUser={user.data}></LogoutDropDown>
+       
       </div>
     </div>
   );
