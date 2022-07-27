@@ -30,6 +30,20 @@ export default function Rightbar({ user }) {
         axios.post(uri);
         const friendList = await axios.post(uri);
         console.log("friendList: ", friendList);
+        // let friends =  friendList.data.data.friends;
+        // Promise.all((friends).map((friend)=> {
+        //   let param2 = new URLSearchParams({
+        //     token: currentUser.data.token,
+        //     user_id: currentUser.data.id,
+        //     index: 0,
+        //     count: 50,
+        //   }).toString();
+        //   const uri2 = `${process.env.REACT_APP_BASE_URL}/user/get_user_info?` + params;
+        //   axios.post(uri2);
+
+        // }));
+      
+        // await 
         setFriends(friendList.data.data.friends);
       } catch (err) {
         console.log(err);
@@ -89,11 +103,11 @@ export default function Rightbar({ user }) {
         <div className="rightbarInfo">
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">City:</span>
-            <span className="rightbarInfoValue">{user?.city}</span>
+            <span className="rightbarInfoValue">{user?.city || 'Ha Noi'}</span>
           </div>
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">From:</span>
-            <span className="rightbarInfoValue">{user?.from}</span>
+            <span className="rightbarInfoValue">{user?.from || 'Viet Nam'}</span>
           </div>
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">Relationship:</span>
@@ -110,21 +124,21 @@ export default function Rightbar({ user }) {
         <div className="rightbarFollowings">
           {friends?.map((friend) => (
             <Link
-              to={"/profile/" + friend.username}
+              to={"/profile/" + friend.id}
               style={{ textDecoration: "none" }}
               key={friend.id}
             >
               <div className="rightbarFollowing">
                 <img
                   src={
-                    friend.profilePicture
-                      ? PF + friend.profilePicture
+                    friend?.avatar
+                      ? friend?.avatar
                       : PF + "person/noAvatar.png"
                   }
                   alt=""
                   className="rightbarFollowingImg"
                 />
-                <span className="rightbarFollowingName">{friend.username}</span>
+                <span className="rightbarFollowingName">{friend?.name || 'user'+ friend?.id.substring(0,8) }</span>
               </div>
             </Link>
           ))}

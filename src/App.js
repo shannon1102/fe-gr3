@@ -11,6 +11,7 @@ import {
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import Messenger from "./pages/messenger/Messenger";
+import Friend from "./pages/friend/Friend";
 require('dotenv').config()
 
 function App() {
@@ -24,6 +25,10 @@ function App() {
         <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
         <Route path="/register">
           {user ? <Redirect to="/" /> : <Register />}
+        </Route>
+        <Route path="/friend">
+          {/* {!user ? <Redirect to="/" /> : <Messenger />} */}
+          <Friend/>
         </Route>
         <Route path="/messenger">
           {!user ? <Redirect to="/" /> : <Messenger />}

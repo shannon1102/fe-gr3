@@ -20,3 +20,15 @@ export const Unfollow = (userId) => ({
   type: "UNFOLLOW",
   payload: userId,
 });
+export const LogoutStart = () => ({
+  type: "LOGOUT_START",
+});
+
+export const LogoutSuccess = (resp) => ({
+  type: "LOGOUT_SUCCESS",
+  payload: resp,
+});
+
+export const LogoutFailure = () => ({
+  type: "LOGOUT_FAILURE",
+});

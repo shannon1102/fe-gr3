@@ -6,7 +6,7 @@ import axios from "axios";
 import { MoreVert } from "@material-ui/icons";
 export default function PostHandlePopup({ post, currentUser }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
+  const baseUrl = process.env.REACT_APP_BASE_URL;
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -20,11 +20,12 @@ export default function PostHandlePopup({ post, currentUser }) {
         id: post.id,
         token: currentUser.data.token,
       }).toString();
-      const uri = `${REACT_APP_BASE_URL}/post/delete_post?` + params;
+      const uri = `${baseUrl}/post/delete_post?` + params;
       console.log("uri: ", uri);
       const deleteResp = await axios.post(uri);
       console.log('deleteResp: ', deleteResp);
       setAnchorEl(null);
+      window.location.reload(true);
     } catch (err) {
       console.log(err);
     }

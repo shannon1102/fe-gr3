@@ -1,5 +1,5 @@
 import "./topbar.css";
-import { Search, Person, Chat, Notifications, ArrowDropDown } from "@material-ui/icons";
+import { Search, Person, Chat, Notifications } from "@material-ui/icons";
 
 import { Link } from "react-router-dom";
 import { useContext } from "react";
@@ -33,10 +33,12 @@ export default function Topbar() {
           <span className="topbarLink">Timeline</span>
         </div>
         <div className="topbarIcons">
-          <div className="topbarIconItem">
-            <Person />
-            <span className="topbarIconBadge">1</span>
-          </div>
+          <Link to={`/friend`} style={{ textDecoration: "none" }}>
+            <div className="topbarIconItem">
+              <Person />
+              <span className="topbarIconBadge">1</span>
+            </div>
+          </Link>
           <div className="topbarIconItem">
             <Chat />
             <span className="topbarIconBadge">2</span>
@@ -49,16 +51,14 @@ export default function Topbar() {
         <Link to={`/profile/${user.data.id}`}>
           <img
             src={
-              user.data.avatar
-                ? user.data.avatar
-                : PF + "person/noAvatar.png"
+              user.data.avatar ? user.data.avatar : PF + "person/noAvatar.png"
             }
             alt=""
             className="topbarImg"
           />
         </Link>
+
         <LogoutDropDown currentUser={user.data}></LogoutDropDown>
-       
       </div>
     </div>
   );

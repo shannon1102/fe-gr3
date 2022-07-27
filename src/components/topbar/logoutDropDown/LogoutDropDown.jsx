@@ -2,7 +2,10 @@ import * as React from "react";
 import { Button, Menu, MenuItem } from "@material-ui/core";
 import "./logoutDropDown.css";
 import { ArrowDropDown } from "@material-ui/icons";
+// import axios from "axios";
+import { Link } from "react-router-dom";
 import axios from "axios";
+
 export default function LogoutDropDown({ currentUser }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -12,24 +15,32 @@ export default function LogoutDropDown({ currentUser }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleLogout = async () => {
+  const handleLogout = async (e) => {
     try {
       console.log("Logout clicked");
       const params = new URLSearchParams({
         token: currentUser.data.token,
       }).toString();
       const uri =
-        `https://social-be-2022.herokuapp.com/balo/auth/logout?` + params;
+        `${process.env.REACT_BASE_URL}/balo/auth/logout?` + params;
       console.log("uri: ", uri);
 
       const logOutResponse = await axios.post(uri);
       console.log("logOutResponse: ", logOutResponse);
+      localStorage.removeItem("user");
+      // e.preventDefault();
+      // logoutCall(
+      //   { token: currentUser.data.token },
+      //   dispatch
+      // );
+
       setAnchorEl(null);
     } catch (error) {}
   };
 
   return (
     <div>
+      
       <Button
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
@@ -49,7 +60,7 @@ export default function LogoutDropDown({ currentUser }) {
         }}
         style={{ marginRight: "30px" }}
       >
-        <MenuItem onClick={handleLogout}>Log out</MenuItem>
+       <MenuItem onClick={handleLogout}><Link to={`/login`}>Log out</Link></MenuItem>
       </Menu>
     </div>
   );

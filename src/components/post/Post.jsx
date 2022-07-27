@@ -1,5 +1,4 @@
 import "./post.css";
-import { MoreVert } from "@material-ui/icons";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { format } from "timeago.js";
@@ -29,6 +28,7 @@ export default function Post({ post }) {
       const uri =
         `${process.env.REACT_APP_BASE_URL}/like/like?` + params;
       const likeResponse = await axios.post(uri);
+      console.log('likeResponse: ', likeResponse);
     } catch (err) {
       console.log(err);
     }
@@ -44,7 +44,7 @@ export default function Post({ post }) {
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
-            <Link to={`/profile/${user.username}`}>
+            <Link to={`/profile/${user.id}`}>
               <img
                 className="postProfileImg"
                 src={user.avatar ? user.avatar : PF + "person/noA vatar.png"}

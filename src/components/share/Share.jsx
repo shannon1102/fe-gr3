@@ -28,7 +28,7 @@ export default function Share() {
       token: user.data.token
     }).toString();
     const url =
-    `${process.env.REACT_APP_BASE_URL}post/add_post?` +
+    `${process.env.REACT_APP_BASE_URL}/post/add_post?` +
     params;
 
     if (file) {
