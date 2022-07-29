@@ -4,10 +4,14 @@ import "./postHandlePopup.css";
 import axios from "axios";
 
 import { MoreVert } from "@material-ui/icons";
+import { useState } from "react";
+import Modal from "../modal/Modal";
+import EditUserInfoModal from "../../../pages/profile/editUserInfoModal/EditUserInfoModal";
 export default function PostHandlePopup({ post, currentUser }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const open = Boolean(anchorEl);
+  const [isEditPost,setIsEditPost] = useState(false);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -31,6 +35,8 @@ export default function PostHandlePopup({ post, currentUser }) {
     }
   };
   const handleEdit = () => {
+    setIsEditPost(true);
+
     setAnchorEl(null);
   };
 
@@ -72,6 +78,9 @@ export default function PostHandlePopup({ post, currentUser }) {
         )}
         <MenuItem onClick={handleReport}>Report Port</MenuItem>
       </Menu>
+    
+    {isEditPost && <Modal/>}
+   
     </div>
   );
 }
