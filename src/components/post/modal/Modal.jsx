@@ -3,13 +3,15 @@ import Share from "../../share/Share";
 import { Cancel, CloseRounded, EmojiEmotions, Label, PermMedia, Room } from "@material-ui/icons";
 import "./modal.css";
 import { Button } from "@material-ui/core";
-export default function Modal({user,post,PF,desc,file}) {
+export default function Modal({post,currentUser,setIsOpen}) {
+  console.log('post: ', post);
+  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   return (
-    <div className="modal-container">
+    <div className="modalContainer">
       <div className="modal">
         <div className="modalHeader">
           <h3>Edit post</h3>
-          <Button className="closeBtnModal" onClick={() => {}}>
+          <Button className="closeBtnModal" onClick={() => {setIsOpen(false)} }>
             <CloseRounded />
           </Button>
         </div>
@@ -20,26 +22,26 @@ export default function Modal({user,post,PF,desc,file}) {
           <img
             className="shareProfileImg"
             src={
-              user?.data?.avatar
-                ? user?.data?.avatar
+              currentUser?.data?.avatar
+                ? currentUser?.data?.avatar
                 : PF + "person/noAvatar.png"
             }
             alt=""
           />
           <input
-            placeholder={"What's in your mind " + user?.username + "?"}
+            placeholder={"What's in your mind " + currentUser?.username + "?"}
             className="shareInput"
-            ref={desc}
+            // ref={desc}
           />
         </div>
         <hr className="shareHr" />
-        {file && (
+        {/* {file && (
           <div className="shareImgContainer">
             {(file.type.split("/")[0] === "image") && <img className="shareImg" src={URL.createObjectURL(file)} alt="" />}
             {(file.type.split("/")[0] === "video") &&  <video width="750" height="500" controls ><source src={URL.createObjectURL(file)} type="video/mp4"/></video>}
             <Cancel className="shareCancelImg" onClick={() => {}} />
           </div>
-        )}
+        )} */}
         <form className="shareBottom" onSubmit={()=>{}}>
           <div className="shareOptions">
             <label htmlFor="file" className="shareOption">

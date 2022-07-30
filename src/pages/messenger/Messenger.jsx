@@ -48,6 +48,14 @@ export default function Messenger() {
   useEffect(() => {
     const getConversations = async () => {
       try {
+        const baseURL = process.env.REACT_APP_BASE_URL;
+        const params = new URLSearchParams({
+          token: user?.data.token
+        }).toString();
+        const url =
+          `${baseURL}/auth/get_list_cov?` +
+          params;
+
         const res = await axios.get("/conversations/" + user._id);
         setConversations(res.data);
       } catch (err) {

@@ -4,6 +4,14 @@ import Share from "../share/Share";
 import "./feed.css";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
+import {
+  Button,
+  FormControl,
+  FormHelperText,
+  Input,
+  InputLabel,
+  TextField,
+} from "@material-ui/core";
 // import Modal from "../post/modal/Modal";
 
 export default function Feed({ username }) {
@@ -41,11 +49,11 @@ export default function Feed({ username }) {
           {(!username || username === user.username) && <Share />}
 
           {posts.map((p) => (
-          <Post key={p.id} post={p} />
-        ))}
+            <Post key={p.id} post={p} />
+          ))}
         </div>
       </div>
       {/* <Modal></Modal> */}
     </>
-  );  
+  );
 }

@@ -57,7 +57,7 @@ export default function Topbar() {
             className="topbarImg"
           />
         </Link>
-        <p>Le Huy Van</p>
+        <p>{user.data.id}</p>
 
         <LogoutDropDown currentUser={user.data}></LogoutDropDown>
       </div>

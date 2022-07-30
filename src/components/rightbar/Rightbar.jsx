@@ -5,12 +5,14 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { Add, Remove } from "@material-ui/icons";
+import { Add, Remove, Create } from "@material-ui/icons";
+import EditUserInfoModal from "../../pages/profile/editUserInfoModal/EditUserInfoModal";
 
 export default function Rightbar({ user }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [friends, setFriends] = useState([]);
   const { user: currentUser, dispatch } = useContext(AuthContext);
+  const [isOpenEditUser,setIsOpenEditUser] = useState(false);
   const [followed, setFollowed] = useState(
     // currentUser.followings.includes(user?.id)
     true
@@ -30,20 +32,6 @@ export default function Rightbar({ user }) {
         axios.post(uri);
         const friendList = await axios.post(uri);
         console.log("friendList: ", friendList);
-        // let friends =  friendList.data.data.friends;
-        // Promise.all((friends).map((friend)=> {
-        //   let param2 = new URLSearchParams({
-        //     token: currentUser.data.token,
-        //     user_id: currentUser.data.id,
-        //     index: 0,
-        //     count: 50,
-        //   }).toString();
-        //   const uri2 = `${process.env.REACT_APP_BASE_URL}/user/get_user_info?` + params;
-        //   axios.post(uri2);
-
-        // }));
-      
-        // await 
         setFriends(friendList.data.data.friends);
       } catch (err) {
         console.log(err);
@@ -81,8 +69,8 @@ export default function Rightbar({ user }) {
         <img className="rightbarAd" src="assets/ad.png" alt="" />
         <h4 className="rightbarTitle">Online Friends</h4>
         <ul className="rightbarFriendList">
-          {Users.map((u) => (
-            <Online key={u.id} user={u} />
+          {friends.map((u) => (
+            <Online key={u.id} userID={u.id} />
           ))}
         </ul>
       </>
@@ -93,7 +81,17 @@ export default function Rightbar({ user }) {
     console.log("fiends", friends);
     return (
       <>
-        {user.username !== currentUser.username && (
+        {user.id === currentUser.data.id && (
+          <button
+            className="rightbarChangInfoButton"
+            onClick={()=>{setIsOpenEditUser(true)}}
+          >
+          
+            {<Create />}
+            <p>{"Edit information"}</p>
+          </button>
+        )}
+        {user.id !== currentUser.data.id && (
           <button className="rightbarFollowButton" onClick={handleClick}>
             {followed ? "Unfollow" : "Follow"}
             {followed ? <Remove /> : <Add />}
@@ -103,11 +101,13 @@ export default function Rightbar({ user }) {
         <div className="rightbarInfo">
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">City:</span>
-            <span className="rightbarInfoValue">{user?.city || 'Ha Noi'}</span>
+            <span className="rightbarInfoValue">{user?.city || "Ha Noi"}</span>
           </div>
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">From:</span>
-            <span className="rightbarInfoValue">{user?.from || 'Viet Nam'}</span>
+            <span className="rightbarInfoValue">
+              {user?.from || "Viet Nam"}
+            </span>
           </div>
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">Relationship:</span>
@@ -131,18 +131,19 @@ export default function Rightbar({ user }) {
               <div className="rightbarFollowing">
                 <img
                   src={
-                    friend?.avatar
-                      ? friend?.avatar
-                      : PF + "person/noAvatar.png"
+                    friend?.avatar ? friend?.avatar : PF + "person/noAvatar.png"
                   }
                   alt=""
                   className="rightbarFollowingImg"
                 />
-                <span className="rightbarFollowingName">{friend?.name || 'user'+ friend?.id.substring(0,8) }</span>
+                <span className="rightbarFollowingName">
+                  {friend?.name || "user" + friend?.id.substring(0, 8)}
+                </span>
               </div>
             </Link>
           ))}
         </div>
+        {isOpenEditUser && <EditUserInfoModal currentUser= {user} setIsOpen={setIsOpenEditUser}/>}
       </>
     );
   };

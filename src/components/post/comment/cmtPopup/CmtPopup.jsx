@@ -6,8 +6,7 @@ import axios from "axios";
 import { MoreVert } from "@material-ui/icons";
 import { useState } from "react";
 import Modal from "../modal/Modal";
-import EditUserInfoModal from "../../../pages/profile/editUserInfoModal/EditUserInfoModal";
-export default function PostHandlePopup({ post, currentUser }) {
+export default function CmtPopup({ post, currentUser }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const open = Boolean(anchorEl);
@@ -24,7 +23,7 @@ export default function PostHandlePopup({ post, currentUser }) {
         id: post.id,
         token: currentUser.data.token,
       }).toString();
-      const uri = `${baseUrl}/post/delete_post?` + params;
+      const uri = `${baseUrl}/comment/delete_comment?` + params;
       console.log("uri: ", uri);
       const deleteResp = await axios.post(uri);
       console.log('deleteResp: ', deleteResp);
