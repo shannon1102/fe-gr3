@@ -9,8 +9,7 @@ export default function Online({ userID }) {
   const [onlineUser, setOnlineUser] = useState(null);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   useEffect(() => {
-    console.log("dadadad value", userID);
-    console.log("dadadad", typeof userID);
+
     const params = new URLSearchParams({
       token: currentUser.data.token,
       user_id: userID,
@@ -42,7 +41,7 @@ export default function Online({ userID }) {
         </Link>
         <span className="rightbarOnline"></span>
       </div>
-      <span className="rightbarUsername">{onlineUser?.username}</span>
+      <span className="rightbarUsername">{onlineUser?.username || "user" + onlineUser?.id.substring(0, 8)}</span>
     </li>
   );
 }

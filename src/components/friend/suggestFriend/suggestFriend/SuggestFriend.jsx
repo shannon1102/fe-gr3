@@ -56,7 +56,7 @@ export default function SuggestFriend({  user,curUser  }) {
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {user?.username || "Lizard Alina"}
+          {user?.username || "user" + user?.user_id?.substring(0, 8)}
         </Typography>
         <Typography variant="body2" color="text.secondary">
          {user.same_friends + ' same friend'}

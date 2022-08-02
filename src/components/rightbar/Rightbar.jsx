@@ -137,7 +137,7 @@ export default function Rightbar({ user }) {
                   className="rightbarFollowingImg"
                 />
                 <span className="rightbarFollowingName">
-                  {friend?.name || "user" + friend?.id.substring(0, 8)}
+                  {friend?.username || "user" + friend?.id.substring(0, 8)}
                 </span>
               </div>
             </Link>

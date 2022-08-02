@@ -15,7 +15,7 @@ export default function Topbar() {
     <div className="topbarContainer">
       <div className="topbarLeft">
         <Link to="/" style={{ textDecoration: "none" }}>
-          <span className="logo">Lamasocial</span>
+          <span className="logo">Nerverland</span>
         </Link>
       </div>
       <div className="topbarCenter">
@@ -39,10 +39,12 @@ export default function Topbar() {
               <span className="topbarIconBadge">1</span>
             </div>
           </Link>
-          <div className="topbarIconItem">
-            <Chat />
-            <span className="topbarIconBadge">2</span>
-          </div>
+          <Link to={`/messenger`}>
+            <div className="topbarIconItem">
+              <Chat />
+              <span className="topbarIconBadge">2</span>
+            </div>
+          </Link>
           <div className="topbarIconItem">
             <Notifications />
             <span className="topbarIconBadge">1</span>
@@ -57,7 +59,7 @@ export default function Topbar() {
             className="topbarImg"
           />
         </Link>
-        <p>{user.data.id}</p>
+        <p>{user.data.username || "user" + user.data?.id.substring(0, 8)}</p>
 
         <LogoutDropDown currentUser={user.data}></LogoutDropDown>
       </div>

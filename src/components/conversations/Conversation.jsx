@@ -7,12 +7,23 @@ export default function Conversation({ conversation, currentUser }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
   useEffect(() => {
-    const friendId = conversation.members.find((m) => m !== currentUser._id);
+    console.log("conversation",conversation)
+    const friend = conversation.partner;
 
     const getUser = async () => {
       try {
-        const res = await axios("/users?userId=" + friendId);
-        setUser(res.data);
+        const params = new URLSearchParams({
+          token: currentUser.data.token,
+          user_id: friend.id,
+      
+        }).toString();
+  
+        const url =
+          `${process.env.REACT_APP_BASE_URL}/user/get_user_info?` + params;
+  
+        const res = await axios.post(url);
+        console.log('res friend in conversation: ', res);
+        setUser(res?.data?.data);
       } catch (err) {
         console.log(err);
       }
@@ -25,13 +36,13 @@ export default function Conversation({ conversation, currentUser }) {
       <img
         className="conversationImg"
         src={
-          user?.profilePicture
-            ? PF + user.profilePicture
+          user?.avatar
+            ? user?.avatar
             : PF + "person/noAvatar.png"
         }
         alt=""
       />
-      <span className="conversationName">{user?.username}</span>
+      <span className="conversationName">{user?.username || "user" + user?.id.substring(0, 8)}</span>
     </div>
   );
 }
