@@ -14,6 +14,7 @@ export default function Profile() {
   const [user, setUser] = useState({});
   const [updateAvatarUrl, setUpdateAvatarUrl] = useState(null);
   const userID = useParams().user_id;
+  console.log('userIDDDDDDDDDD: ', userID);
   // const [isEditUserInfo,setEditUserInfo] = useState(false);
   const { user: currentUser } = useContext(AuthContext);
   const avatarUploadRef = useRef(null);
@@ -27,11 +28,13 @@ export default function Profile() {
 
   useEffect(() => {
     console.log("dadadad value", userID);
-    console.log("dadadad", typeof userID);
+   
     const params = new URLSearchParams({
       token: currentUser.data.token,
       user_id: userID,
     }).toString();
+    
+    console.log('params: ', params);
     const url =
       `${process.env.REACT_APP_BASE_URL}/user/get_user_info?` + params;
     const fetchUser = async () => {
@@ -41,7 +44,7 @@ export default function Profile() {
     };
     fetchUser();
   }, [userID, currentUser]);
-
+  console.log("dadadad", user);
   return (
     <>
       <Topbar />
@@ -73,8 +76,8 @@ export default function Profile() {
             </div>
           </div>
           <div className="profileRightBottom">
-            <Feed username={userID} />
-            <Rightbar user={user}/>
+            <Feed userID={userID} />
+            {user.id && <Rightbar user={user}/>}
           </div>
         </div>
       </div>

@@ -7,6 +7,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import axios from "axios";
 
 export default function EditUserInfoModal({ currentUser, setIsOpen }) {
+  console.log("currentUser: ", currentUser);
   const username = useRef();
   const description = useRef();
   const city = useRef();
@@ -49,10 +50,10 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
       console.log("fileAvatar: ", fileAvatar);
       const data = new FormData();
 
-      if (fileCover.type.split("/")[0] === "image") {
+      if (fileCover?.type.split("/")[0] === "image") {
         data.append("cover_image", fileCover);
       }
-      if (fileAvatar.type.split("/")[0] === "image") {
+      if (fileAvatar?.type.split("/")[0] === "image") {
         data.append("avatar", fileAvatar);
       }
 
@@ -207,6 +208,7 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
                 <input
                   label="Username"
                   placeholder="Trai BK"
+                  defaultValue={currentUser?.username}
                   minLength="6"
                   type="text"
                   required
@@ -221,6 +223,7 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
                 </label>
                 <input
                   placeholder="BugsMaker"
+                  defaultValue={currentUser?.description}
                   type="text"
                   required
                   minLength="6"
@@ -234,6 +237,7 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
                 </label>
                 <input
                   placeholder="Ha Noi"
+                  defaultValue={currentUser?.city}
                   type="text"
                   required
                   className="editUserInput"
@@ -246,6 +250,7 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
                 </label>
                 <input
                   placeholder="Vietnam"
+                  defaultValue={currentUser?.country}
                   type="text"
                   required
                   minLength="6"

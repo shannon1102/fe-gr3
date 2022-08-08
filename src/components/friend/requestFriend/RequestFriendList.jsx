@@ -7,6 +7,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { useEffect } from "react";
 import axios from "axios";
+import './requestFriendList.css'
 
 export default function RequestFriendList() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -21,7 +22,8 @@ export default function RequestFriendList() {
       count: 50,
     }).toString();
     const url =
-      `${process.env.REACT_APP_BASE_URL}/friend/get_requested_friends?` + params;
+      `${process.env.REACT_APP_BASE_URL}/friend/get_requested_friends?` +
+      params;
     const fetchUser = async () => {
       const res = await axios.post(url);
       console.log("res get request friend Info: ", res.data);
@@ -31,19 +33,29 @@ export default function RequestFriendList() {
   }, [currentUser]);
 
   return (
-    <Box
-    sx={{ flexGrow: 1 }}
-    // sx={{ width: 300 }}
-    >
-      <Grid container spacing={3}>
-        {(requestUser?.length >0) &&requestUser.map((user)=>
-          <Grid item xs={2} key={user.id}>
-            <RequestFriend user={user} curUser={currentUser}> </RequestFriend>
-          </Grid>
-        
+    <>
+      <>
+        {requestUser?.length > 0 && (
+          <>
+            <h1>Request Friends</h1>
+            <hr className="hrFiend"></hr>
+          </>
         )}
-
-      </Grid>
-    </Box>
+      </>
+      <Box
+        sx={{ flexGrow: 1 }}
+        // sx={{ width: 300 }}
+      >
+        <Grid container spacing={3}>
+          {requestUser?.length > 0 &&
+            requestUser.map((user) => (
+              <Grid item xs={2} key={user.id}>
+                <RequestFriend user={user} curUser={currentUser}>
+                </RequestFriend>
+              </Grid>
+            ))}
+        </Grid>
+      </Box>
+    </>
   );
 }

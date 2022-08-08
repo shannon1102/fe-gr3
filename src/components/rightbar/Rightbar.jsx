@@ -7,12 +7,14 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { Add, Remove, Create } from "@material-ui/icons";
 import EditUserInfoModal from "../../pages/profile/editUserInfoModal/EditUserInfoModal";
+import { format } from "timeago.js";
 
 export default function Rightbar({ user }) {
+  console.log("user In Rightbar: ", user);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [friends, setFriends] = useState([]);
   const { user: currentUser, dispatch } = useContext(AuthContext);
-  const [isOpenEditUser,setIsOpenEditUser] = useState(false);
+  const [isOpenEditUser, setIsOpenEditUser] = useState(false);
   const [followed, setFollowed] = useState(
     // currentUser.followings.includes(user?.id)
     true
@@ -27,8 +29,22 @@ export default function Rightbar({ user }) {
           index: 0,
           count: 50,
         }).toString();
-        const uri =
-          `${process.env.REACT_APP_BASE_URL}/friend/get_user_friends?` + params;
+        const profileParams = new URLSearchParams({
+          token: currentUser.data.token,
+          user_id: user?.id,
+          index: 0,
+          count: 50,
+        }).toString();
+        let uri = "";
+        if (user) {
+          uri =
+            `${process.env.REACT_APP_BASE_URL}/friend/get_user_friends?` +
+            profileParams;
+        } else {
+          uri =
+            `${process.env.REACT_APP_BASE_URL}/friend/get_user_friends?` +
+            params;
+        }
         axios.post(uri);
         const friendList = await axios.post(uri);
         console.log("friendList: ", friendList);
@@ -63,7 +79,7 @@ export default function Rightbar({ user }) {
         <div className="birthdayContainer">
           <img className="birthdayImg" src="assets/gift.png" alt="" />
           <span className="birthdayText">
-            <b>Pola Foster</b> and <b>3 other friends</b> have a birhday today.
+            <b>Huy Văn</b> and <b>3 other friends</b> have a birhday today.
           </span>
         </div>
         <img className="rightbarAd" src="assets/ad.png" alt="" />
@@ -84,31 +100,52 @@ export default function Rightbar({ user }) {
         {user.id === currentUser.data.id && (
           <button
             className="rightbarChangInfoButton"
-            onClick={()=>{setIsOpenEditUser(true)}}
+            onClick={() => {
+              setIsOpenEditUser(true);
+            }}
           >
-          
             {<Create />}
             <p>{"Edit information"}</p>
           </button>
         )}
         {user.id !== currentUser.data.id && (
           <button className="rightbarFollowButton" onClick={handleClick}>
-            {followed ? "Unfollow" : "Follow"}
-            {followed ? <Remove /> : <Add />}
+            {user.is_friend == "true" ? "Unfriend" : "Add friend"}
+            {user.is_friend == "true"  ? <Remove /> : <Add />}
           </button>
         )}
         <h4 className="rightbarTitle">User information</h4>
         <div className="rightbarInfo">
+          {user?.username && (
+            <div className="rightbarInfoItem">
+              <span className="rightbarInfoKey">Username:</span>
+              <span className="rightbarInfoValue">{user?.username}</span>
+            </div>
+          )}
+           {user?.description && (
+            <div className="rightbarInfoItem">
+              <span className="rightbarInfoKey">Description:</span>
+              <span className="rightbarInfoValue">{user?.description}</span>
+            </div>
+          )}
+          
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">City:</span>
             <span className="rightbarInfoValue">{user?.city || "Ha Noi"}</span>
           </div>
           <div className="rightbarInfoItem">
-            <span className="rightbarInfoKey">From:</span>
+            <span className="rightbarInfoKey">Country:</span>
             <span className="rightbarInfoValue">
-              {user?.from || "Viet Nam"}
+              {user?.country || "Viet Nam"}
             </span>
           </div>
+          {user?.created && (
+            <div className="rightbarInfoItem">
+              <span className="rightbarInfoKey">Date Join:</span>
+              <span className="rightbarInfoValue">{format(user?.created)}</span>
+            </div>
+          )}
+          
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">Relationship:</span>
             <span className="rightbarInfoValue">
@@ -122,7 +159,9 @@ export default function Rightbar({ user }) {
         </div>
         <h4 className="rightbarTitle">User friends</h4>
         <div className="rightbarFollowings">
+        {console.log('friends rightbar: ', user)}
           {friends?.map((friend) => (
+          
             <Link
               to={"/profile/" + friend.id}
               style={{ textDecoration: "none" }}
@@ -143,7 +182,9 @@ export default function Rightbar({ user }) {
             </Link>
           ))}
         </div>
-        {isOpenEditUser && <EditUserInfoModal currentUser= {user} setIsOpen={setIsOpenEditUser}/>}
+        {isOpenEditUser && (
+          <EditUserInfoModal currentUser={user} setIsOpen={setIsOpenEditUser} />
+        )}
       </>
     );
   };

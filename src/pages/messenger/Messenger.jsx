@@ -143,9 +143,18 @@ export default function Messenger() {
       message: newMessage,
     });
 
-  
+    setMessages((prev) => [...prev, {
+      sender: user.data,
+      own:true,
+      message: newMessage,
+    }]);
+    console.log("afterrrMessage",messages);
+
+    setNewMessage("");
 
     try {
+
+     
       
     
       const params = new URLSearchParams({
@@ -160,30 +169,24 @@ export default function Messenger() {
       
 
       const res = await axios.post(url);
-      setMessages((prev) => [...prev, {
-        sender: user.data,
-        own:true,
-        message: newMessage,
-      }]);
-      console.log("afterrrMessage",messages);
-
-      setNewMessage("");
+      console.log('res add api: ', res);
+   
 
       //fetch
-      const params2 = new URLSearchParams({
-        token: user?.data.token,
-        index: 0,
-        count:30,
+      // const params2 = new URLSearchParams({
+      //   token: user?.data.token,
+      //   index: 0,
+      //   count:30,
 
-        conversation_id: message.conversationId,
-      }).toString();
-      const url2 =
-      `${baseURL}/chat/get_conversation?` +
-      params2;
+      //   conversation_id: message.conversationId,
+      // }).toString();
+      // const url2 =
+      // `${baseURL}/chat/get_conversation?` +
+      // params2;
 
-      const res2 = await axios.post(url2);
+      // const res2 = await axios.post(url2);
      
-      console.log('res get conversation: ', res2);
+      // console.log('res get conversation: ', res2);
       // setMessages(res2?.data?.data.conversation);
 
       //const res = await axios.post("/chat/add_dialog", message);

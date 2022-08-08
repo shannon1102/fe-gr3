@@ -51,8 +51,8 @@ export default function SuggestFriend({  user,curUser  }) {
       <CardMedia
         component="img"
         height="140"
-        image="/assets/person/noAvatar.png"
-        alt="green iguana"
+        image= { user?.avatar ? user?.avatar :  "/assets/person/noAvatar.png"}
+        alt=""
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

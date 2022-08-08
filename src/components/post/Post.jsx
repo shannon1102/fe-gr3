@@ -8,6 +8,7 @@ import PostHandlePopup from "./popup/PostHandlePopup";
 
 import { ChatBubbleOutline } from "@material-ui/icons";
 import CommentExpand from "./comment/CommentExpand";
+import PostDetail from "../../pages/postDetail/PostDetail";
 
 export default function Post({ post }) {
   const [like, setLike] = useState(post.like);
@@ -47,9 +48,7 @@ export default function Post({ post }) {
                 <Link to={`/profile/${user.id}`}>
                   <img
                     className="postProfileImg"
-                    src={
-                      user.avatar ? user.avatar : PF + "person/noAvatar.png"
-                    }
+                    src={user.avatar ? user.avatar : PF + "person/noAvatar.png"}
                     alt=""
                   />
                 </Link>
@@ -68,11 +67,16 @@ export default function Post({ post }) {
               {post.described && (
                 <span className="postText">{post.described}</span>
               )}
-              {post.image && (
+              {post.image?.length ==1 && (
                 <img className="postImg" src={post.image[0].url} alt="" />
               )}
+
+              {post.image?.length > 1 && (
+                <PostDetail images={post.image} ></PostDetail>
+               
+              )}
               {post.video && (
-                <video width="750" height="500" controls>
+                <video className="postVideo" width="750" height="700" controls>
                   <source src={post.video.url} type="video/mp4" />
                 </video>
               )}

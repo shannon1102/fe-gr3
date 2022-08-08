@@ -14,7 +14,8 @@ import {
 } from "@material-ui/core";
 // import Modal from "../post/modal/Modal";
 
-export default function Feed({ username }) {
+export default function Feed({ userID }) {
+  console.log('userID in feed: ', userID);
   const [posts, setPosts] = useState([]);
   const { user } = useContext(AuthContext);
   console.log("user: ", user);
@@ -27,9 +28,21 @@ export default function Feed({ username }) {
         count: 30,
         index: 0,
       }).toString();
-      const url =
-        `${process.env.REACT_APP_BASE_URL}/post/get_list_posts?` + params;
-      const res = username ? await axios.post(url) : await axios.post(url);
+      const profileParams = new URLSearchParams({
+        token: user.data.token,
+        count: 30,
+        user_id:userID,
+        index: 0,
+      }).toString();
+      let url ='';
+      if(userID) {
+        url =
+        `${process.env.REACT_APP_BASE_URL}/post/get_list_posts?` + profileParams;
+      }else {
+        url =
+          `${process.env.REACT_APP_BASE_URL}/post/get_list_posts?` + params;
+      }
+      const res =  await axios.post(url) ;
       console.log("res: ", res.data.data);
       //  await axios.get("/posts/profile/" + username)
       // : await axios.get("posts/timeline/" + user._id);
@@ -40,13 +53,13 @@ export default function Feed({ username }) {
       );
     };
     fetchPosts();
-  }, [username, user.data.token]);
+  }, [userID, user.data.token]);
 
   return (
     <>
       <div className="feed">
         <div className="feedWrapper">
-          {(!username || username === user.username) && <Share />}
+          {(!userID || userID === user.data.id) && <Share />}
 
           {posts.map((p) => (
             <Post key={p.id} post={p} />
