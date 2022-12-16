@@ -13,6 +13,8 @@ import { AuthContext } from "./context/AuthContext";
 import Messenger from "./pages/messenger/Messenger";
 import Friend from "./pages/friend/Friend";
 import PostDetail from "./pages/postDetail/PostDetail";
+import Renting from "./pages/renting/Renting"
+import CreatePost from "./pages/createpost/createPost"
 require('dotenv').config()
 
 function App() {
@@ -40,6 +42,12 @@ function App() {
         </Route>
         <Route path="/postdetail">
           <PostDetail />
+        </Route>
+        <Route path="/renting">
+          <Renting  user={user}/>
+        </Route>
+        <Route path="/createpost">
+          <CreatePost  user={user}/>
         </Route>
       </Switch>
     </Router>

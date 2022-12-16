@@ -5,7 +5,9 @@ import { format } from "timeago.js";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import PostHandlePopup from "./popup/PostHandlePopup";
-
+import {
+  Typography,
+} from "@material-ui/core";
 import { ChatBubbleOutline } from "@material-ui/icons";
 import CommentExpand from "./comment/CommentExpand";
 import PostDetail from "../../pages/postDetail/PostDetail";
@@ -65,7 +67,8 @@ export default function Post({ post }) {
 
             <div className="postCenter">
               {post.described && (
-                <span className="postText">{post.described}</span>
+                // <span className="postText">{post.described}</span>
+                <Typography>{post.described}</Typography>
               )}
               {post.image?.length ==1 && (
                 <img className="postImg" src={post.image[0].url} alt="" />

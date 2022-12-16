@@ -25,7 +25,7 @@
 }
 .cmtRight{
 
-    width: 100%;
+    width: 100%; 
     display: flex;
     flex-direction: column;
    
@@ -34,8 +34,8 @@
     font-weight: 900;
 }
 .cmtRightComment {
-    outline: none;
-    border: none;
+    /* outline: none; */
+    /* border: none; */
     background-color: rgb(240, 238, 236);
     /* overflow:hidden;
     display:block; */
