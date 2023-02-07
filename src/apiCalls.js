@@ -1,5 +1,5 @@
 import axios from "axios";
-
+require('dotenv').config()
 export const loginCall = async (userCredential, dispatch) => {
   dispatch({ type: "LOGIN_START" });
   try {
@@ -7,7 +7,7 @@ export const loginCall = async (userCredential, dispatch) => {
     const baseURL = process.env.REACT_APP_BASE_URL;
     console.log("URLLLL", baseURL);
     const params = new URLSearchParams({
-      phonenumber: userCredential.phoneNumber,
+      email: userCredential.email,
       password: userCredential.password
     }).toString();
     const url =
@@ -15,7 +15,7 @@ export const loginCall = async (userCredential, dispatch) => {
       params;
     const res = await axios.post(url, userCredential);
     console.log('res: ', res);
-    dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+    dispatch({ type: "LOGIN_SUCCESS", payload: res.data.result });
   } catch (err) {
     dispatch({ type: "LOGIN_FAILURE", payload: err });
   }

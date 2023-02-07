@@ -40,7 +40,7 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
       description: description.current.value,
       city: city.current.value,
       country: country.current.value,
-      token: user.data.token,
+      token: user.token,
     }).toString();
     const url =
       `${process.env.REACT_APP_BASE_URL}/user/set_user_info?` + params;

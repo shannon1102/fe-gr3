@@ -33,9 +33,9 @@ export default function Register() {
     <div className="login">
       <div className="loginWrapper">
         <div className="loginLeft">
-          <h3 className="loginLogo">Lamasocial</h3>
+          <h3 className="loginLogo">TroNet</h3>
           <span className="loginDesc">
-            Connect with friends and the world around you on Lamasocial.
+            Connect with friends and the world around you on TroNet.
           </span>
         </div>
         <div className="loginRight">
@@ -62,7 +62,7 @@ export default function Register() {
               minLength="6"
             />
             <input
-              placeholder="Password Again"
+              placeholder="Password again"
               required
               ref={passwordAgain}
               className="loginInput"

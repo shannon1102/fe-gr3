@@ -21,14 +21,14 @@ export default function Post({ post }) {
   const { user: currentUser } = useContext(AuthContext);
 
   useEffect(() => {
-    setUser(post.author);
-  }, [post.author]);
+    setUser(post.user);
+  }, [post.user]);
 
   const likeHandler = async () => {
     try {
       const params = new URLSearchParams({
         id: post.id,
-        token: currentUser.data.token,
+        token: currentUser.token,
       }).toString();
       const uri = `${process.env.REACT_APP_BASE_URL}/like/like?` + params;
       const likeResponse = await axios.post(uri);
@@ -54,8 +54,8 @@ export default function Post({ post }) {
                     alt=""
                   />
                 </Link>
-                <span className="postUsername">{user.username}</span>
-                <span className="postDate">{format(post.created)}</span>
+                <span className="postUsername">{user.name}</span>
+                <span className="postDate">{format(post.createdAt)}</span>
               </div>
               <div className="postTopRight">
                 <PostHandlePopup
@@ -66,16 +66,16 @@ export default function Post({ post }) {
             </div>
 
             <div className="postCenter">
-              {post.described && (
+              {post.description && (
                 // <span className="postText">{post.described}</span>
-                <Typography>{post.described}</Typography>
+                <Typography>{post.description}</Typography>
               )}
-              {post.image?.length ==1 && (
-                <img className="postImg" src={post.image[0].url} alt="" />
+              {post.mediaMap?.length == 1 && (
+                <img className="postImg" src={"http://localhost:4000/static/" + post.mediaMaps[0].media.link} alt="" />
               )}
 
-              {post.image?.length > 1 && (
-                <PostDetail images={post.image} ></PostDetail>
+              {post.mediaMaps?.length > 1 && (
+                <PostDetail images={post.mediaMaps} ></PostDetail>
                
               )}
               {post.video && (

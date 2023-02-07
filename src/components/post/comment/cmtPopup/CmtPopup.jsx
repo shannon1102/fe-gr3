@@ -21,7 +21,7 @@ export default function CmtPopup({ post, currentUser }) {
     try {
       const params = new URLSearchParams({
         id: post.id,
-        token: currentUser.data.token,
+        token: currentUser.token,
       }).toString();
       const uri = `${baseUrl}/comment/delete_comment?` + params;
       console.log("uri: ", uri);
@@ -44,7 +44,7 @@ export default function CmtPopup({ post, currentUser }) {
   };
 
   const checkOwner = (post, currentUser) => {
-    if (post?.author.id === currentUser.data.id) return true;
+    if (post?.user.id === currentUser.id) return true;
     return false;
   };
   return (

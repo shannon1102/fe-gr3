@@ -19,7 +19,7 @@ export default function LogoutDropDown({ currentUser }) {
     try {
       console.log("Logout clicked");
       const params = new URLSearchParams({
-        token: currentUser.data.token,
+        token: currentUser.token,
       }).toString();
       const uri =
         `${process.env.REACT_BASE_URL}/balo/auth/logout?` + params;
@@ -30,7 +30,7 @@ export default function LogoutDropDown({ currentUser }) {
       localStorage.removeItem("user");
       // e.preventDefault();
       // logoutCall(
-      //   { token: currentUser.data.token },
+      //   { token: currentUser.token },
       //   dispatch
       // );
 

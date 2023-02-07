@@ -30,7 +30,7 @@ export default function Profile() {
     console.log("dadadad value", userID);
    
     const params = new URLSearchParams({
-      token: currentUser.data.token,
+      token: currentUser.token,
       user_id: userID,
     }).toString();
     
@@ -40,7 +40,7 @@ export default function Profile() {
     const fetchUser = async () => {
       const res = await axios.post(url);
       console.log("res get Info: ", res.data);
-      setUser(res.data.data);
+      setUser(res.data);
     };
     fetchUser();
   }, [userID, currentUser]);

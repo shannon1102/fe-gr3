@@ -24,42 +24,42 @@ export default function Feed({ userID }) {
   useEffect(() => {
     const fetchPosts = async () => {
       const params = new URLSearchParams({
-        token: user.data.token,
-        count: 30,
-        index: 0,
+        token: user.token,
+        limit: 30,
+        offset: 0,
       }).toString();
       const profileParams = new URLSearchParams({
-        token: user.data.token,
-        count: 30,
+        token: user.token,
+        limit: 30,
         user_id:userID,
-        index: 0,
+        offset: 0,
       }).toString();
       let url ='';
       if(userID) {
         url =
-        `${process.env.REACT_APP_BASE_URL}/post/get_list_posts?` + profileParams;
+        `${process.env.REACT_APP_BASE_URL}/posts?` + profileParams;
       }else {
         url =
-          `${process.env.REACT_APP_BASE_URL}/post/get_list_posts?` + params;
+          `${process.env.REACT_APP_BASE_URL}/posts?` + params;
       }
-      const res =  await axios.post(url) ;
-      console.log("res: ", res.data.data);
+      const res =  await axios.get(url) ;
+      console.log("res: ", res.data);
       //  await axios.get("/posts/profile/" + username)
       // : await axios.get("posts/timeline/" + user._id);
       setPosts(
-        res.data.data.posts.sort((p1, p2) => {
-          return new Date(p2.created) - new Date(p1.created);
+        res.data.result.sort((p1, p2) => {
+          return new Date(p2.createdAt) - new Date(p1.createdAt);
         })
       );
     };
     fetchPosts();
-  }, [userID, user.data.token]);
+  }, [userID, user.token]);
 
   return (
     <>
       <div className="feed">
         <div className="feedWrapper">
-          {(!userID || userID === user.data.id) && <Share />}
+          {(!userID || userID === user.id) && <Share />}
 
           {posts.map((p) => (
             <Post key={p.id} post={p} />

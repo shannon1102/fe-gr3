@@ -10,7 +10,7 @@ export default function InputFormComment({ user, forwardedRef, sendCmtClick }) {
           <img
             className="commentProfileImg"
             src={
-              user.data.avatar ? user.data.avatar : PF + "person/noAvatar.png"
+              user.avatar ? user.avatar : PF + "person/noAvatar.png"
             }
             alt=""
           />

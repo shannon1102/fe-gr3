@@ -12,7 +12,7 @@ export default function RentCard() {
 //   const handleAcceptClick = async ()=>{
 //     try {
 //       const params = new URLSearchParams({
-//         token: curUser.data.token,
+//         token: curUser.token,
 //         user_id:user.id,
 //         is_accept: 1
 //       }).toString();
@@ -31,7 +31,7 @@ export default function RentCard() {
 //   const handleRemoveClick =async ()=>{
 //     try {
 //       const params = new URLSearchParams({
-//         token: curUser.data.token,
+//         token: curUser.token,
 //         user_id:user.id,
 //         is_accept: 0
 //       }).toString();

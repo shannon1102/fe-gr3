@@ -11,7 +11,7 @@ export default function Online({ userID }) {
   useEffect(() => {
 
     const params = new URLSearchParams({
-      token: currentUser.data.token,
+      token: currentUser.token,
       user_id: userID,
     }).toString();
     const url =
@@ -19,7 +19,7 @@ export default function Online({ userID }) {
     const fetchUser = async () => {
       const res = await axios.post(url);
       console.log("res get Info: ", res.data);
-      setOnlineUser(res.data.data);
+      setOnlineUser(res.data);
       console.log("Onl USer",onlineUser)
     };
     fetchUser();

@@ -20,13 +20,21 @@ export default function PostHandlePopup({ post, currentUser }) {
   };
   const handleDelete = async () => {
     try {
+      const opts = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+    
+      opts.headers.Authorization = "Bearer " + currentUser.token;
+    
       const params = new URLSearchParams({
         id: post.id,
-        token: currentUser.data.token,
+        token: currentUser.token,
       }).toString();
-      const uri = `${baseUrl}/post/delete_post?` + params;
+      const uri = `${baseUrl}/posts/${post.id}` ;
       console.log("uri: ", uri);
-      const deleteResp = await axios.post(uri);
+      const deleteResp = await axios.delete(uri,opts);
       console.log('deleteResp: ', deleteResp);
       setAnchorEl(null);
       window.location.reload(true);
@@ -45,7 +53,7 @@ export default function PostHandlePopup({ post, currentUser }) {
   };
 
   const checkOwner = (post, currentUser) => {
-    if (post?.author.id === currentUser.data.id) return true;
+    if (post?.user.id === currentUser.id) return true;
     return false;
   };
   return (

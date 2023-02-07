@@ -13,7 +13,7 @@ export default function Conversation({ conversation, currentUser }) {
     const getUser = async () => {
       try {
         const params = new URLSearchParams({
-          token: currentUser.data.token,
+          token: currentUser.token,
           user_id: friend.id,
       
         }).toString();

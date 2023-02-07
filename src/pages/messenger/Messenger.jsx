@@ -56,7 +56,7 @@ export default function Messenger() {
       try {
         const baseURL = process.env.REACT_APP_BASE_URL;
         const params = new URLSearchParams({
-          token: user?.data.token,
+          token: user?.token,
           index: 0,
           count:100
         }).toString();
@@ -73,14 +73,14 @@ export default function Messenger() {
       }
     };
     getConversations();
-  }, [user.data.id]);
+  }, [user.id]);
 
   useEffect(() => {
     const getFriends = async () => {
       try {
         const baseURL = process.env.REACT_APP_BASE_URL;
         const params = new URLSearchParams({
-          token: user?.data.token,
+          token: user?.token,
           index: 50,
           count:100
         }).toString();
@@ -97,14 +97,14 @@ export default function Messenger() {
       }
     };
     getFriends();
-  }, [user.data.id]);
+  }, [user.id]);
 
   useEffect(() => {
     const getMessages = async () => {
       try {
        
         const params = new URLSearchParams({
-          token: user?.data.token,
+          token: user?.token,
           index: 0,
           count:300,
           // partner_id:1,
@@ -116,7 +116,7 @@ export default function Messenger() {
 
         const res = await axios.post(url);
         console.log('res get conversation: ', res);
-        setMessages(res?.data?.data.conversation);
+        setMessages(res?.data?.conversation);
       } catch (err) {
         console.log(err);
       }
@@ -129,7 +129,7 @@ export default function Messenger() {
     console.log("currentChat",currentChat);
     console.log("newMessege",newMessage);
     const message = {
-      sender: user.data.id,
+      sender: user.id,
       message: newMessage,
       conversationId: currentChat.id,
     };
@@ -158,7 +158,7 @@ export default function Messenger() {
       
     
       const params = new URLSearchParams({
-        // token: user?.data.token,
+        // token: user?.token,
         senderId: message.sender,
         content: message.message,
         conversationId: message.conversationId,
@@ -174,7 +174,7 @@ export default function Messenger() {
 
       //fetch
       // const params2 = new URLSearchParams({
-      //   token: user?.data.token,
+      //   token: user?.token,
       //   index: 0,
       //   count:30,
 
@@ -187,10 +187,10 @@ export default function Messenger() {
       // const res2 = await axios.post(url2);
      
       // console.log('res get conversation: ', res2);
-      // setMessages(res2?.data?.data.conversation);
+      // setMessages(res2?.data?.conversation);
 
       //const res = await axios.post("/chat/add_dialog", message);
-      // setMessages([...messages, res2?.data?.data.conversation]);
+      // setMessages([...messages, res2?.data?.conversation]);
     
     } catch (err) {
       console.log(err);
@@ -224,7 +224,7 @@ export default function Messenger() {
                 <div className="chatBoxTop">
                   {messages.map((m) => (
                     <div ref={scrollRef}>
-                      <Message message={m} own={m?.sender?.id === user.data.id} />
+                      <Message message={m} own={m?.sender?.id === user.id} />
                     </div>
                   ))}
                 </div>

@@ -15,7 +15,7 @@ export default function SuggestFriendList() {
   const { user: currentUser } = useContext(AuthContext);
   useEffect(() => {
     const params = new URLSearchParams({
-      token: currentUser.data.token,
+      token: currentUser.token,
       index: 0,
       count: 50,
     }).toString();

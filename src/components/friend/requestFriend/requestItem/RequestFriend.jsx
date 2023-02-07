@@ -13,7 +13,7 @@ export default function RequestFriend({ user,curUser }) {
   const handleAcceptClick = async ()=>{
     try {
       const params = new URLSearchParams({
-        token: curUser.data.token,
+        token: curUser.token,
         user_id:user.id,
         is_accept: 1
       }).toString();
@@ -32,7 +32,7 @@ export default function RequestFriend({ user,curUser }) {
   const handleRemoveClick =async ()=>{
     try {
       const params = new URLSearchParams({
-        token: curUser.data.token,
+        token: curUser.token,
         user_id:user.id,
         is_accept: 0
       }).toString();

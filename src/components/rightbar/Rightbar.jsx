@@ -24,13 +24,13 @@ export default function Rightbar({ user }) {
     const getFriends = async () => {
       try {
         const params = new URLSearchParams({
-          token: currentUser.data.token,
-          user_id: currentUser.data.id,
+          token: currentUser.token,
+          user_id: currentUser.id,
           index: 0,
           count: 50,
         }).toString();
         const profileParams = new URLSearchParams({
-          token: currentUser.data.token,
+          token: currentUser.token,
           user_id: user?.id,
           index: 0,
           count: 50,
@@ -48,7 +48,7 @@ export default function Rightbar({ user }) {
         axios.post(uri);
         const friendList = await axios.post(uri);
         console.log("friendList: ", friendList);
-        setFriends(friendList.data.data.friends);
+        setFriends(friendList.data.friends);
       } catch (err) {
         console.log(err);
       }
@@ -97,7 +97,7 @@ export default function Rightbar({ user }) {
     console.log("fiends", friends);
     return (
       <>
-        {user.id === currentUser.data.id && (
+        {user.id === currentUser.id && (
           <button
             className="rightbarChangInfoButton"
             onClick={() => {
@@ -108,7 +108,7 @@ export default function Rightbar({ user }) {
             <p>{"Edit information"}</p>
           </button>
         )}
-        {user.id !== currentUser.data.id && (
+        {user.id !== currentUser.id && (
           <button className="rightbarFollowButton" onClick={handleClick}>
             {user.is_friend == "true" ? "Unfriend" : "Add friend"}
             {user.is_friend == "true"  ? <Remove /> : <Add />}

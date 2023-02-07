@@ -17,7 +17,7 @@ export default function RequestFriendList() {
 
   useEffect(() => {
     const params = new URLSearchParams({
-      token: currentUser.data.token,
+      token: currentUser.token,
       index: 0,
       count: 50,
     }).toString();
@@ -27,7 +27,7 @@ export default function RequestFriendList() {
     const fetchUser = async () => {
       const res = await axios.post(url);
       console.log("res get request friend Info: ", res.data);
-      setRequestUser(res.data?.data.request);
+      setRequestUser(res.data?.request);
     };
     fetchUser();
   }, [currentUser]);

@@ -5,6 +5,8 @@ import Topbar from "../../components/topbar/Topbar";
 import "./postDetail.css";
 
 export default function PostDetail({images}) {
+
+  const BEStaticFileBaseURL = process.env.NODEJS_BE_FILE_FOLDER
   // const fadeImages = [
   //   {
   //     id: "62e2a9a0181a950016d1d153",
@@ -34,7 +36,11 @@ export default function PostDetail({images}) {
       }}
     >
       <Fade>
-        {images.map((fadeImage, index) => (
+        {images.map((fadeImage, index) =>
+        {
+          let imageUrl= "http://localhost:4000/static/" + fadeImage.media.link;
+          console.log("IMG LINK",imageUrl)
+        return (
           <div className="each-fade" key={index}
           
           style={{
@@ -48,11 +54,15 @@ export default function PostDetail({images}) {
             maxWidth:"750px"
           }}>
             <div className="image-container" width={"600px"} >
-              <img src={fadeImage.url} width={"100%"} height={"auto"}/>
+              <img src={imageUrl} alt="postimage" width={"100%"} height={"auto"}/>
             </div>
-            <h2>{fadeImage.caption}</h2>
+            <h2>{fadeImage?.caption}</h2>
           </div>
-        ))}
+        )
+}
+        )}
+
+
       </Fade>
     </div>
     </>

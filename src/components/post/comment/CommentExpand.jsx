@@ -12,7 +12,7 @@ export default function CommentExpand({ postId }) {
   const cmtRef = useRef();
   useEffect(() => {
     const params = new URLSearchParams({
-      token: currentUser.data.token,
+      token: currentUser.token,
       id: postId,
       index: 0,
       count: 100,
@@ -31,7 +31,7 @@ export default function CommentExpand({ postId }) {
     console.log("Alooo0000000000000",)
     try {
       const params = new URLSearchParams({
-        token: currentUser.data.token,
+        token: currentUser.token,
         id: postId,
         comment: cmtRef.current.value,
         index: 0,

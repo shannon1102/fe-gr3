@@ -14,7 +14,7 @@ export default function SuggestFriend({  user,curUser  }) {
   const handleAddClick = async ()=>{
     try {
       const params = new URLSearchParams({
-        token: curUser.data.token,
+        token: curUser.token,
         user_id:user.user_id,
       }).toString();
       const uri =
@@ -32,7 +32,7 @@ export default function SuggestFriend({  user,curUser  }) {
   const handleRemoveClick =async ()=>{
     try {
       const params = new URLSearchParams({
-        token: curUser.data.token,
+        token: curUser.token,
         user_id:user.id,
         is_accept: 0
       }).toString();

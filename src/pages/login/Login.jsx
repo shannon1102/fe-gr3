@@ -6,14 +6,14 @@ import { CircularProgress } from "@material-ui/core";
 require('dotenv').config()
 
 export default function Login() {
-  const phoneNumber = useRef();
+  const email = useRef();
   const password = useRef();
   const { isFetching, dispatch } = useContext(AuthContext);
 
   const handleClick = (e) => {
     e.preventDefault();
     loginCall(
-      { phoneNumber: phoneNumber.current.value, password: password.current.value },
+      { email: email.current.value, password: password.current.value },
       dispatch
     );
   };
@@ -22,7 +22,7 @@ export default function Login() {
     <div className="login">
       <div className="loginWrapper">
         <div className="loginLeft">
-          <h3 className="loginLogo">Neverland</h3>
+          <h3 className="loginLogo">TroNet</h3>
           <span className="loginDesc">
             Connect with friends and the world around you on Neverland.
           </span>
@@ -30,11 +30,11 @@ export default function Login() {
         <div className="loginRight">
           <form className="loginBox" onSubmit={handleClick}>
             <input
-              placeholder="phone number"
+              placeholder="Email"
               type="tel"
               required
               className="loginInput"
-              ref={phoneNumber}
+              ref={email}
             />
             <input
               placeholder="Password"

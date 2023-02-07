@@ -12,7 +12,7 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
   useEffect(() => {
     const getFriends = async () => {
       const params = new URLSearchParams({
-        token: currentUser.data.token,
+        token: currentUser.token,
         // user_id: userID,
         index: 0,
         count: 100,
@@ -36,7 +36,7 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
   const handleClick = async (user) => {
     try {
       const params = new URLSearchParams({
-        token: currentUser.data.token,
+        token: currentUser.token,
         // user_id: userID,
         partner_id: user.id,
         // conversation_id: 1,

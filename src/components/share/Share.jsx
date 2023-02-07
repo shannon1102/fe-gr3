@@ -14,59 +14,70 @@ export default function Share() {
   const { user } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const desc = useRef();
-  const [file, setFile] = useState(null);
+  const [files, setFiles] = useState(null);
+
+  const fileOpts = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  };
+  fileOpts.headers.Authorization = "Bearer " + user.token;
+
+  const opts = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  opts.headers.Authorization = "Bearer " + user.token;
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const newPost = {
-      userId: user.data.id,
-      desc: desc.current.value,
-    };
-    const params = new URLSearchParams({
-      described: desc.current.value,
-      status: "hạnh phúc",
-      token: user.data.token
-    }).toString();
-    const url =
-    `${process.env.REACT_APP_BASE_URL}/post/add_post?` +
-    params;
+    const url = `${process.env.REACT_APP_BASE_URL}/posts?`;
+    const mediaUrl = `${process.env.REACT_APP_BASE_URL}/media`;
 
-    if (file) {
-      console.log('file: ', file);
-      const data = new FormData();
-   
-      if(file.type.split("/")[0] === "video") {
-        data.append("video", file);
-      }
-      if(file.type.split("/")[0] === "image") {
-        data.append("image", file);
-      }
-      console.log(newPost);
+    if (files) {
       try {
-        await axios.post(url, data);
+        console.log("file: ", files, typeof files);
+        const fileArr = Array.from(files);
+
+        const uploadFilesReps = await Promise.all(
+          fileArr.map(async (file) => {
+            const data = new FormData();
+            data.append("files", file);
+
+            let uploadedMedia = await axios.post(mediaUrl, data, fileOpts);
+            console.log("uploadMediaRes", uploadedMedia);
+            return uploadedMedia.data.result[0].id;
+          })
+        );
+
+        // const uploadMediaRes = await axios.post(mediaUrl, data,opts);
+        console.log("uploadMediaRes", uploadFilesReps);
+        await axios.post(
+          url,
+          { description: desc.current.value, media: [...uploadFilesReps] },
+          opts
+        );
+
         window.location.reload(true);
       } catch (err) {
         console.log(err);
       }
-    }else {
+    } else {
       try {
-        await axios.post(url);
+        await axios.post(url, { description: desc.current.value }, opts);
         window.location.reload(true);
       } catch (err) {}
-    };
-
     }
+  };
   return (
     <div className="share">
       <div className="shareWrapper">
         <div className="shareTop">
           <img
             className="shareProfileImg"
-            src={
-              user.data.avatar
-                ? user.data.avatar
-                : PF + "person/noAvatar.png"
-            }
+            src={user.avatar ? user.avatar : PF + "person/noAvatar.png"}
             alt=""
           />
           <input
@@ -76,11 +87,21 @@ export default function Share() {
           />
         </div>
         <hr className="shareHr" />
-        {file && (
+        {files && (
           <div className="shareImgContainer">
-            {(file.type.split("/")[0] === "image") && <img className="shareImg" src={URL.createObjectURL(file)} alt="" />}
-            {(file.type.split("/")[0] === "video") &&  <video width="750" height="500" controls ><source src={URL.createObjectURL(file)} type="video/mp4"/></video>}
-            <Cancel className="shareCancelImg" onClick={() => setFile(null)} />
+            {files[0].type.split("/")[0] === "image" && (
+              <img
+                className="shareImg"
+                src={URL.createObjectURL(files[0])}
+                alt=""
+              />
+            )}
+            {files[0].type.split("/")[0] === "video" && (
+              <video width="750" height="500" controls>
+                <source src={URL.createObjectURL(files[0])} type="video/mp4" />
+              </video>
+            )}
+            <Cancel className="shareCancelImg" onClick={() => setFiles(null)} />
           </div>
         )}
         <form className="shareBottom" onSubmit={submitHandler}>
@@ -93,7 +114,8 @@ export default function Share() {
                 type="file"
                 id="file"
                 accept=".png,.jpeg,.jpg,.mp4"
-                onChange={(e) => setFile(e.target.files[0])}
+                onChange={(e) => setFiles(e.target.files)}
+                multiple
               />
             </label>
             <div className="shareOption">
