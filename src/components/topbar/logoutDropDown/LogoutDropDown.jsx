@@ -2,9 +2,8 @@ import * as React from "react";
 import { Button, Menu, MenuItem } from "@material-ui/core";
 import "./logoutDropDown.css";
 import { ArrowDropDown } from "@material-ui/icons";
-// import axios from "axios";
 import { Link } from "react-router-dom";
-import axios from "axios";
+
 
 export default function LogoutDropDown({ currentUser }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -18,23 +17,16 @@ export default function LogoutDropDown({ currentUser }) {
   const handleLogout = async (e) => {
     try {
       console.log("Logout clicked");
-      const params = new URLSearchParams({
-        token: currentUser.token,
-      }).toString();
-      const uri =
-        `${process.env.REACT_BASE_URL}/balo/auth/logout?` + params;
-      console.log("uri: ", uri);
+      await localStorage.removeItem("user");
+      
+      let checkUser = localStorage.getItem("user");
+      console.log("checkUser",checkUser)
 
-      const logOutResponse = await axios.post(uri);
-      console.log("logOutResponse: ", logOutResponse);
-      localStorage.removeItem("user");
-      // e.preventDefault();
-      // logoutCall(
-      //   { token: currentUser.token },
-      //   dispatch
-      // );
 
+      e.preventDefault();
+ 
       setAnchorEl(null);
+      window.location.reload(true);
     } catch (error) {}
   };
 

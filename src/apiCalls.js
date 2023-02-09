@@ -24,18 +24,19 @@ export const loginCall = async (userCredential, dispatch) => {
 export const logoutCall = async (token, dispatch) => {
   dispatch({ type: "LOGOUT_START" });
   try {
-    console.log("BASEURLLLL", process.env.REACT_APP_BASE_URL);
-    const baseURL = process.env.REACT_APP_BASE_URL;
-    console.log("URLLLL", baseURL);
-    const params = new URLSearchParams({
-      token: token
-    }).toString();
-    const url =
-      `${baseURL}/auth/logout?` +
-      params;
-    const res = await axios.post(url);
-    console.log('res: ', res);
-    dispatch({ type: "LOGOUT_SUCCESS", payload: res.data });
+    // console.log("BASEURLLLL", process.env.REACT_APP_BASE_URL);
+    // const baseURL = process.env.REACT_APP_BASE_URL;
+    // console.log("URLLLL", baseURL);
+    // const params = new URLSearchParams({
+    //   token: token
+    // }).toString();
+    // const url =
+    //   `${baseURL}/auth/logout?` +
+    //   params;
+    // const res = await axios.post(url);
+    // console.log('res: ', res);
+    dispatch({ type: "LOGOUT_SUCCESS", payload: null });
+    window.location.reload(true);
   } catch (err) {
     dispatch({ type: "LOGOUT_FAILURE", payload: err });
   }
