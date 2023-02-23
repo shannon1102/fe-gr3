@@ -13,6 +13,7 @@ import { AuthContext } from "./context/AuthContext";
 import Messenger from "./pages/messenger/Messenger";
 import Friend from "./pages/friend/Friend";
 import PostDetail from "./pages/postDetail/PostDetail";
+import "./global.css"
 require('dotenv').config()
 
 function App() {

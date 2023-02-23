@@ -30,34 +30,34 @@ export default function Register() {
   };
 
   return (
-    <div className="login">
-      <div className="loginWrapper">
-        <div className="loginLeft">
-          <h3 className="loginLogo">Lamasocial</h3>
-          <span className="loginDesc">
+    <div className="register">
+      <div className="registerWrapper">
+        <div className="registerLeft">
+          <h3 className="registerLogo">Lamasocial</h3>
+          <span className="registerDesc">
             Connect with friends and the world around you on Lamasocial.
           </span>
         </div>
-        <div className="loginRight">
-          <form className="loginBox" onSubmit={handleClick}>
+        <div className="registerRight">
+          <form className="registerBox" onSubmit={handleClick}>
             <input
               placeholder="Username"
               required
               ref={name}
-              className="loginInput"
+              className="registerInput"
             />
             <input
               placeholder="Phone number"
               required
               ref={phoneNumber}
-              className="loginInput"
+              className="registerInput"
               type="tel"
             />
             <input
               placeholder="Password"
               required
               ref={password}
-              className="loginInput"
+              className="registerInput"
               type="password"
               minLength="6"
             />
@@ -65,13 +65,13 @@ export default function Register() {
               placeholder="Password Again"
               required
               ref={passwordAgain}
-              className="loginInput"
+              className="registerInput"
               type="password"
             />
-            <button className="loginButton" type="submit">
+            <button className="registerButton" type="submit">
               Sign Up
             </button>
-            <button className="loginRegisterButton">Log into Account</button>
+            <button className="registerRegisterButton">Log into Account</button>
           </form>
         </div>
       </div>

@@ -3,7 +3,8 @@ import "./login.css";
 import { loginCall } from "../../apiCalls";
 import { AuthContext } from "../../context/AuthContext";
 import { CircularProgress } from "@material-ui/core";
-require('dotenv').config()
+import AppButton from "../../components/AppButton/AppButton";
+require("dotenv").config();
 
 export default function Login() {
   const phoneNumber = useRef();
@@ -13,53 +14,87 @@ export default function Login() {
   const handleClick = (e) => {
     e.preventDefault();
     loginCall(
-      { phoneNumber: phoneNumber.current.value, password: password.current.value },
+      {
+        phoneNumber: phoneNumber.current.value,
+        password: password.current.value,
+      },
       dispatch
     );
   };
 
   return (
     <div className="login">
-      <div className="loginWrapper">
-        <div className="loginLeft">
-          <h3 className="loginLogo">Neverland</h3>
-          <span className="loginDesc">
-            Connect with friends and the world around you on Neverland.
-          </span>
-        </div>
-        <div className="loginRight">
-          <form className="loginBox" onSubmit={handleClick}>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="2 -1.5 15 7">
+        <path
+          d="M0 0 7 0Q9 0 9 2L9 3Q9 5 11 5L17 5M17 5 17-3 0-3 0 0"
+          fill="#ffffff"
+        />
+      </svg>
+      <div className="login__building">
+        <img src="assets/building.png" alt="" />
+      </div>
+      <div className="login__box">
+        <div className="login__box-title">Đăng nhập</div>
+        <div className="login__box-intro">Đăng nhập hệ thống</div>
+        <form className="login__form" onSubmit={handleClick}>
+          <div className="login__input-box">
             <input
-              placeholder="phone number"
+              placeholder="Số điện thoại"
               type="tel"
-              required
-              className="loginInput"
+              className="login__input"
               ref={phoneNumber}
             />
+            <img src="assets/telephone.png" alt="" />
+          </div>
+          <div className="login__input-box">
             <input
-              placeholder="Password"
+              placeholder="Mật khẩu"
               type="password"
-              required
-              minLength="6"
-              className="loginInput"
+              className="login__input"
               ref={password}
             />
-            <button className="loginButton" type="submit" disabled={isFetching}>
-              {isFetching ? (
-                <CircularProgress color="white" size="20px" />
-              ) : (
-                "Log In"
-              )}
-            </button>
-            <span className="loginForgot">Forgot Password?</span>
-            <button className="loginRegisterButton">
-              {isFetching ? (
-                <CircularProgress color="white" size="20px" />
-              ) : (
-                "Create a New Account"
-              )}
-            </button>
-          </form>
+            <img src="assets/padlock.png" alt="" />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "400px",
+            }}
+          >
+            <a href="#" className="login__forgot">
+              Quên mật khẩu
+            </a>
+            <AppButton
+              text="Đăng nhập"
+              type="submit"
+              isLoading={isFetching}
+              addtionalStyles={{
+                margin: "15px",
+                width: "150px",
+              }}
+            ></AppButton>
+          </div>
+        </form>
+
+        <div>
+          <span
+            style={{
+              marginRight: "4px",
+            }}
+          >
+            Bạn chưa có tài khoản?
+          </span>
+          <a
+            href="/register"
+            style={{
+              color: "var(--primary-color)",
+              fontWeight: "bold",
+            }}
+          >
+            Đăng ký ngay
+          </a>
         </div>
       </div>
     </div>
