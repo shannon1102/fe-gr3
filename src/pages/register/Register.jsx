@@ -55,7 +55,7 @@ export default function Register() {
              <input
               placeholder="Số điện thoại"
               required
-              ref={phoneNumber}
+              ref={phone}
               className="registerInput"
               type="tel"
             />

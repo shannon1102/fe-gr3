@@ -15,7 +15,7 @@ export default function Login() {
     e.preventDefault();
     loginCall(
       {
-        phoneNumber: phoneNumber.current.value,
+        email: email.current.value,
         password: password.current.value,
       },
       dispatch
@@ -42,7 +42,7 @@ export default function Login() {
               placeholder="Số điện thoại"
               type="tel"
               className="login__input"
-              ref={phoneNumber}
+              ref={email}
             />
             <img src="assets/telephone.png" alt="" />
           </div>
@@ -78,7 +78,11 @@ export default function Login() {
           </div>
         </form>
 
-        <div>
+        <div
+          style={{
+            marginTop: "10px",
+          }}
+        >
           <span
             style={{
               marginRight: "4px",
