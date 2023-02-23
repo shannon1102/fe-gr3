@@ -1,119 +1,126 @@
 .topbarContainer {
-  height: 100px;
-  width: 100%;
-  /* background-color: #1877f2;*/
-  /* background-color: #f2c618; */
-  /* background-color: #454dd0; */
-  background-color: #003580;
-  display: flex;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 999;
+    height: 100px;
+    width: 100%;
+    background-color: #F4F7FF;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 999;
 }
 
-
 .topbarLeft {
-  flex: 3;
-  display: flex;
+    flex: 3;
+    display: flex;
 }
 
 .logo {
-  font-size: 24px;
-  margin-left: 20px;
-  font-weight: bold;
-  color: white;
-  cursor: pointer;
+    font-size: 30px;
+    margin-left: 6px;
+    font-weight: bold;
+    color: var(--primary-color);
+    cursor: pointer;
 }
 
 .topbarCenter {
-  flex: 7;
-  display: flex;
-  justify-content: space-around;
+    flex: 7;
+    display: flex;
+    justify-content: space-around;
 }
 
 .searchbar {
-  width: 60%;
-  height: 30px;
-  background-color: white;
-  border-radius: 2px;
-  display: flex;
-  align-items: center;
-  margin-left: 10px;
+    width: 300px;
+    height: 40px;
+    background-color: white;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.searchbar:hover {
+    box-shadow: 1px 1px 5px #dee0ff;
 }
 
 .searchIcon {
-  font-size: 20px !important;
-  margin-left: 10px;
+    margin-left: 10px;
+    color: #ABABAB;
+    font-size: 24px !important;
 }
 
 .searchInput {
-  border: none;
-  width: 70%;
+    border: none;
+    width: 100%;
+    height: 100%;
+    padding-left: 6px;
 }
 
 .searchInput:focus {
-  outline: none;
+    outline: none;
 }
 
 .topbarRight {
-  flex: 3;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  color: white;
-  width: 100px;
-  /* margin-right: -100px; */
-}
-.topBarRightUserName{
-  margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: white;
+    /* margin-right: -100px; */
 }
 
+.topBarRightUserName {
+    margin-left: 10px;
+}
 
 .topbarLink {
-  margin-right: 10px;
-  font-size: 14px;
-  cursor: pointer;
-  flex: 1;
+    margin-right: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    flex: 1;
 }
 
 .topbarIcons {
-  display: flex;
+    display: flex;
 }
 
 .topbarIconItem {
-  margin: 0 100px;
-  margin-right: 15px;
-  cursor: pointer;
-  position: relative;
-  color: rgb(255, 255, 255);
+    margin: 0 100px;
+    margin-right: 15px;
+    cursor: pointer;
+    position: relative;
+    color: rgb(255, 255, 255);
 }
 
 .topbarIconBadge {
-  width: 15px;
-  height: 15px;
-  background-color: red;
-  border-radius: 50%;
-  color: white;
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    border-radius: 50%;
+    color: white;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
 }
 
 .topbarImg {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
 }
 
-@media screen and (max-width: 768px)  {
-  .topbarLink{
-    display: none;
-  }
+.logo__img {
+    width: 50px;
+}
+
+@media screen and (max-width: 768px) {
+    .topbarLink {
+        display: none;
+    }
 }

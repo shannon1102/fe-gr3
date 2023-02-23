@@ -40,7 +40,7 @@ export default function Feed({ userID }) {
         `${process.env.REACT_APP_BASE_URL}/posts?` + profileParams;
       }else {
         url =
-          `${process.env.REACT_APP_BASE_URL}/posts?` + params;
+          `${process.env.REACT_APP_BASE_URL}/posts`;
       }
       const res =  await axios.get(url) ;
       console.log("res: ", res.data);

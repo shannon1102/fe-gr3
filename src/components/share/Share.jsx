@@ -6,6 +6,7 @@ import {
   EmojiEmotions,
   Cancel,
 } from "@material-ui/icons";
+import AppButton from "../../components/AppButton/AppButton";
 import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
@@ -77,7 +78,11 @@ export default function Share() {
         <div className="shareTop">
           <img
             className="shareProfileImg"
-            src={user.avatar ? `${mediaUrl}/${user.avatar}` : PF + "person/noAvatar.png"}
+            src={
+              user.avatar
+                ? `${mediaUrl}/${user.avatar}`
+                : PF + "person/noAvatar.png"
+            }
             alt=""
           />
           <input
@@ -86,7 +91,7 @@ export default function Share() {
             ref={desc}
           />
         </div>
-        <hr className="shareHr" />
+        <div className="shareHr" />
         {files && (
           <div className="shareImgContainer">
             {files[0].type.split("/")[0] === "image" && (
@@ -130,11 +135,18 @@ export default function Share() {
             <div className="shareOption">
               <EmojiEmotions htmlColor="goldenrod" className="shareIcon" />
               <span className="shareOptionText">Cảm thấy</span>
-            </div> 
+            </div>
           </div>
-          <button className="shareButton" type="submit">
-            Đăng
-          </button>
+          <AppButton
+            text="Đăng"
+            type="submit"
+            isLoading={false}
+            addtionalStyles={{
+              width: "90px",
+              height: "36px",
+              borderRadius: "6px",
+            }}
+          ></AppButton>
         </form>
       </div>
     </div>
