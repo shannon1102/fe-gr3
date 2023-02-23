@@ -2,7 +2,6 @@ import { useContext, useRef } from "react";
 import "./login.css";
 import { loginCall } from "../../apiCalls";
 import { AuthContext } from "../../context/AuthContext";
-import { CircularProgress } from "@material-ui/core";
 import AppButton from "../../components/AppButton/AppButton";
 require("dotenv").config();
 
@@ -39,12 +38,12 @@ export default function Login() {
         <form className="login__form" onSubmit={handleClick}>
           <div className="login__input-box">
             <input
-              placeholder="Số điện thoại"
+              placeholder="Nhập địa chỉ email"
               type="tel"
               className="login__input"
               ref={email}
             />
-            <img src="assets/telephone.png" alt="" />
+            <img src="assets/email.png" alt="" />
           </div>
           <div className="login__input-box">
             <input
