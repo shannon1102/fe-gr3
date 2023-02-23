@@ -92,9 +92,10 @@ const useStyles = makeStyles((theme) =>
     },
     messageTimeStampRight: {
       position: "absolute",
-      fontSize: ".85em",
+      fontSize: ".75em",
       fontWeight: "300",
       marginTop: "10px",
+      // paddingBottom: "10px",
       bottom: "-3px",
       right: "5px"
     },

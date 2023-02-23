@@ -6,45 +6,34 @@ import { AuthContext } from "../../../context/AuthContext";
 import InputFormComment from "./inputFormComment/InputFormComment";
 import ListComment from "./listComent/ListComment";
 import './commentExpand.css'
-export default function CommentExpand({ postId }) {
+export default function CommentExpand({ post }) {
   const { user: currentUser } = useContext(AuthContext);
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState(post.comments);
   const cmtRef = useRef();
-  useEffect(() => {
-    const params = new URLSearchParams({
-      token: currentUser.token,
-      id: postId,
-      index: 0,
-      count: 100,
-    }).toString();
-
-    const url =
-      `${process.env.REACT_APP_BASE_URL}/comment/get_comment?` + params;
-    const fetchComment = async () => {
-      const res = await axios.post(url);
-      console.log("res get comments: ", res?.data?.data);
-      setComments([...res?.data?.data]);
-    };
-    fetchComment();
-  },[]);
+  const opts = {
+    headers: {
+        'Content-Type': 'application/json'
+    }
+};
+    opts.headers.Authorization = "Bearer " + currentUser.token;
+ 
   const handleSendComment = async () => {
     console.log("Alooo0000000000000",)
     try {
-      const params = new URLSearchParams({
-        token: currentUser.token,
-        id: postId,
+      const params ={
+        postId: post.id,
         comment: cmtRef.current.value,
-        index: 0,
-        count: 100,
-      }).toString();
+        userId: currentUser.id,
+      };
       console.log("Check data",cmtRef.current.value);
 
       const url =
-        `${process.env.REACT_APP_BASE_URL}/comment/set_comment?` + params;
+        `${process.env.REACT_APP_BASE_URL}/comments`;
   
-        const res = await axios.post(url);
-        console.log("res get comments: ", res?.data?.data);
-        setComments(res?.data?.data);
+        const res = await axios.post(url,params,opts);
+        console.log("res get comments: ", res?.data?.result);
+        setComments(res?.data?.result.post.comments);
+        cmtRef.current = ""
 
     } catch (error) {}
   };

@@ -5,9 +5,9 @@ import Comment from "./comment/Comment";
 export default function ListComment({ comments }) {
   const scrollRef = useRef();
 
-  // useEffect(() => {
-  //   scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  // }, [comments]);
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [comments]);
 
   return (
     <div className="commentTop">

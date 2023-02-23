@@ -2,19 +2,18 @@ import { MoreVert } from "@material-ui/icons";
 import React from "react";
 import { useEffect } from "react";
 import "./comment.css";
-import {
-  Typography,
-} from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 export default function Comment({ comment }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
   return (
-    <div className="cmtContainer">
+    // <div className="cmtContainer">
+    <Paper className="cmtContainer">
       <img
         className="cmtUserAvatar"
         src={
-          comment?.poster?.avatar
-            ? `${process.env.REACT_APP_MEDIA_URL}/${comment?.poster?.avatar}`
+          comment?.user?.avatar
+            ? `${process.env.REACT_APP_MEDIA_URL}/${comment?.user?.avatar}`
             : PF + "person/noAvatar.png"
         }
         alt=""
@@ -22,12 +21,12 @@ export default function Comment({ comment }) {
 
       <div className="cmtRight">
         <>
-          <p className="cmtRightUser"> {comment?.poster.name}</p>
-          {/* <textarea className="cmtRightComment" type="textarea" row={5} defaultValue={comment?.comment}></textarea> */}
+          <p className="cmtRightUser"> {comment?.user.name}</p>
           <Typography>{comment?.comment}</Typography>
         </>
       </div>
-      <MoreVert />
-    </div>
+    </Paper>
+
+    // </div>
   );
 }

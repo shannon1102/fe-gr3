@@ -8,8 +8,8 @@ import PostHandlePopup from "./popup/PostHandlePopup";
 import { Switch, Typography } from "@material-ui/core";
 import { ChatBubbleOutline } from "@material-ui/icons";
 import CommentExpand from "./comment/CommentExpand";
-import PostDetail from "../../pages/postDetail/PostDetail";
 import PostMedia from "../postMedias/PostMedia";
+import { POST, getOptions } from "../../aixosHttpUitls";
 require("dotenv").config();
 
 export default function Post({ post }) {
@@ -17,7 +17,7 @@ export default function Post({ post }) {
 
 
   const [like, setLike] = useState(post.like);
-  const [isLiked, setIsLiked] = useState(post.is_liked);
+  const [isLiked, setIsLiked] = useState(post.isLiked);
   const [isExpandComment, setIsExpandComment] = useState(false);
   const [user, setUser] = useState({});
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -27,14 +27,20 @@ export default function Post({ post }) {
     setUser(post.user);
   }, [post.user]);
 
+  const opts = {
+    headers: {
+        'Content-Type': 'application/json'
+    }
+};
+    opts.headers.Authorization = "Bearer " + currentUser.token;
+
   const likeHandler = async () => {
     try {
-      const params = new URLSearchParams({
-        id: post.id,
-        token: currentUser.token,
-      }).toString();
-      const uri = `${process.env.REACT_APP_BASE_URL}/like/like?` + params;
-      const likeResponse = await axios.post(uri);
+      const params ={
+        postId: post.id,
+      };
+      const uri = `${process.env.REACT_APP_BASE_URL}/like`;
+      const likeResponse = await axios.post(uri,params,opts);
       console.log("likeResponse: ", likeResponse);
     } catch (err) {
       console.log(err);
@@ -146,7 +152,7 @@ export default function Post({ post }) {
                 <img
                   className="likeIcon"
                   src={`${PF}comment.png`}
-                  onClick={likeHandler}
+                  // onClick={likeHandler}
                   alt=""
                 />
                 {/* <span className="postCommentText">{post.comment} comments</span> */}
@@ -155,7 +161,7 @@ export default function Post({ post }) {
             {/* <hr className="sidebarHr" /> */}
           </div>
 
-          {isExpandComment && <CommentExpand postId={post?.id} />}
+          {isExpandComment && <CommentExpand post={post} />}
         </>
       </div>
     </>

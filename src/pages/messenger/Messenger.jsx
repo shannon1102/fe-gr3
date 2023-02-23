@@ -7,7 +7,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { io } from "socket.io-client";
-
+import { format } from "timeago.js";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
 import {
@@ -18,7 +18,7 @@ import { MessageInput } from "../../components/chatting/MessageInput";
 import { Button, TextField } from "@mui/material";
 
 import SendIcon from "@material-ui/icons/Send";
-import { format } from "date-fns";
+
 
 export default function Messenger() {
   const useStyles = makeStyles((theme) =>
@@ -217,25 +217,6 @@ export default function Messenger() {
 
       const res = await axios.post(url, params, opts);
       console.log("res add api: ", res);
-
-      //fetch
-      // const params2 = new URLSearchParams({
-      //   token: user?.token,
-      //   index: 0,
-      //   count:30,
-
-      //   conversation_id: message.conversationId,
-      // }).toString();
-      // const url2 =
-      // `${baseURL}/chat/get_conversation?` +
-      // params2;
-
-      // const res2 = await axios.post(url2);
-
-      // console.log('res get conversation: ', res2);
-      // setMessages(res2?.data?.conversation);
-
-      //const res = await axios.post("/chat/add_dialog", message);
       setMessages([...res?.data?.result.messages]);
     } catch (err) {
       console.log(err);
@@ -279,24 +260,6 @@ export default function Messenger() {
           <div className="chatBoxWrapper">
             {currentChat ? (
               <>
-                {/* <div className="chatBoxTop">
-                  {messages.map((m) => (
-                    <div ref={scrollRef}>
-                      <Message message={m} own={m?.sender?.id === user.id} />
-                    </div>
-                  ))}
-                </div>
-                <div className="chatBoxBottom">
-                  <textarea
-                    className="chatMessageInput"
-                    placeholder="write something..."
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    value={newMessage}
-                  ></textarea>
-                  <button className="chatSubmitButton" onClick={handleSubmit}>
-                    Send
-                  </button>
-                </div> */}
                 <div className={classes.container}>
                   <Paper className={classes.paper} zDepth={2}>
                     <Paper id="style-1" className={classes.messagesBody}>
@@ -306,6 +269,8 @@ export default function Messenger() {
                             <MessageRight
                               message={message.message}
                               // timestamp="MM/DD 00:00"
+                              timestamp={(
+                                format(message.createdAt))}
                               photoURL={
                                 message.user?.avatar
                                 ? `${process.env.REACT_APP_MEDIA_URL}/${user?.avatar}`
@@ -318,13 +283,12 @@ export default function Messenger() {
                             <MessageLeft
                               message={message.message}
                               timestamp={(
-                                message.createdAt,
-                                "MM/dd/yyyy")}
+                                format(message.createdAt))}
                               photoURL={ 
                                 message.user?.avatar
                                 ? `${process.env.REACT_APP_MEDIA_URL}/${user?.avatar}`
                                 : PF + "person/noAvatar.png"}
-                              displayName={message.user.name}
+                              displayName={message?.user?.name}
                               avatarDisp={false}
                             />
                           )}
