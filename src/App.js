@@ -20,6 +20,7 @@ import Market from "./pages/market/Market";
 import List from "./pages/list/List";
 import Hotel from "./pages/hotel/Hotel";
 import ChatBox from "./components/chatting/ChatBox";
+import "./global.css"
 require("dotenv").config();
 
 function App() {

@@ -39,9 +39,9 @@ export default function Register() {
     <div className="register">
       <div className="registerWrapper">
         <div className="registerLeft">
-          <h3 className="registerLogo">TroNet</h3>
+          <h3 className="registerLogo">Lamasocial</h3>
           <span className="registerDesc">
-              Kết bạn với tất cả mọi người trên TroNet.
+            Connect with friends and the world around you on Lamasocial.
           </span>
         </div>
         <div className="registerRight">
@@ -55,7 +55,7 @@ export default function Register() {
              <input
               placeholder="Số điện thoại"
               required
-              ref={phone}
+              ref={phoneNumber}
               className="registerInput"
               type="tel"
             />
@@ -82,11 +82,9 @@ export default function Register() {
               type="password"
             />
             <button className="registerButton" type="submit">
-              Đăng ký
+              Sign Up
             </button>
-            <Link to="/login" style={{ textDecoration: 'none' }}>
-               <button className="registerRegisterButton">Quay lại trang đăng nhập</button>
-            </Link>
+            <button className="registerRegisterButton">Log into Account</button>
           </form>
         </div>
       </div>

@@ -1,39 +1,39 @@
 .register {
-  width: 100vw;
-  height: 100vh;
-  background-color: #f0f2f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #f0f2f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .registerWrapper {
-  width: 70%;
-  height: 70%;
-  display: flex;
+    width: 70%;
+    height: 70%;
+    display: flex;
 }
 
 .registerLeft,
 .registerRight {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .registerLogo {
-  font-size: 50px;
-  font-weight: 800;
-  color: #1775ee;
-  margin-bottom: 10px;
+    font-size: 50px;
+    font-weight: 800;
+    color: #1775ee;
+    margin-bottom: 10px;
 }
 
 .registerDesc {
-  font-size: 24px;
+    font-size: 24px;
 }
 
-.registerBox{
-    height: 600px;
+.registerBox {
+    height: 400px;
     padding: 20px;
     background-color: white;
     border-radius: 10px;
@@ -42,7 +42,7 @@
     justify-content: space-between;
 }
 
-.registerInput{
+.registerInput {
     height: 50px;
     border-radius: 10px;
     border: 1px solid gray;
@@ -51,11 +51,11 @@
     margin: 10px 0px;
 }
 
-.registerInput:focus{
+.registerInput:focus {
     outline: none;
 }
 
-.registerButton{
+.registerButton {
     height: 50px;
     border-radius: 10px;
     border: none;
@@ -66,12 +66,12 @@
     cursor: pointer;
 }
 
-.registerForgot{
+.registerForgot {
     text-align: center;
     color: #1775ee;
 }
 
-.registerRegisterButton{
+.registerRegisterButton {
     width: 60%;
     /* align-self: center; */
     display: flex;
@@ -89,5 +89,4 @@
     cursor: pointer;
     margin-top: 10px;
     /* align-self: center; */
-
 }
