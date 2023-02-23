@@ -16,6 +16,10 @@ import PostDetail from "./pages/postDetail/PostDetail";
 import Renting from "./pages/renting/Renting";
 import CreatePost from "./pages/createpost/createPost";
 import PrivateRoute from "./shared/PrivateRoute";
+import Market from "./pages/market/Market";
+import List from "./pages/list/List";
+import Hotel from "./pages/hotel/Hotel";
+import ChatBox from "./components/chatting/ChatBox";
 require("dotenv").config();
 
 function App() {
@@ -56,9 +60,10 @@ function App() {
           redirectTo={"/login"}
         ></PrivateRoute>
         <PrivateRoute
-          path="/postdetail"
+          path="/posts/:post_id"
           allowVisit={!!user}
           component={PostDetail}
+          // props={}
           redirectTo={"/login"}
         >
           <PostDetail />
@@ -73,6 +78,21 @@ function App() {
         <PrivateRoute path="/createpost">
           <CreatePost user={user} />
         </PrivateRoute>
+        <PrivateRoute path="/hotels/:id">
+          <Hotel />
+        </PrivateRoute >
+
+        <PrivateRoute path="/market">
+          <Market />
+        </PrivateRoute>
+        <PrivateRoute path="/hotels">
+          <List  />
+        </PrivateRoute>
+        <PrivateRoute path="/testcomponent">
+          <ChatBox  />
+        </PrivateRoute>
+   
+
       </Switch>
     </Router>
   );

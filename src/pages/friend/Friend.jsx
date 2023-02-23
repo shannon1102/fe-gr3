@@ -8,7 +8,7 @@ import SuggestFriendList from "../../components/friend/suggestFriend/SuggestFrie
 export default function Friend() {
   return (
     <>
-      <Topbar />
+      <Topbar isContainSearch={true}/>
       <div className="friendPageContainer">
         <Sidebar />
         <div className="friendContainer">

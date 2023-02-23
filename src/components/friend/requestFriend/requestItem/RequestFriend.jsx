@@ -10,19 +10,26 @@ import {
 import "./requestItem.css";
 import axios from "axios";
 export default function RequestFriend({ user,curUser }) {
+
+  const opts = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  opts.headers.Authorization = "Bearer " + curUser.token;
+
   const handleAcceptClick = async ()=>{
+  
     try {
       const params = new URLSearchParams({
-        token: curUser.token,
-        user_id:user.id,
-        is_accept: 1
-      }).toString();
+        requesterId: user.id
+      });
       const uri =
-        `${process.env.REACT_APP_BASE_URL}/friend/set_accept_friend?` + params;
-      const acceptResponse = await axios.post(uri);
+        `${process.env.REACT_APP_BASE_URL}/friends/accept-friend`;
+      const acceptResponse = await axios.post(uri,{requesterId: user.id},opts);
       console.log('friend Response: ', acceptResponse);
       window.location.reload(true);
-
     } catch (err) {
       console.log(err);
     }
@@ -37,8 +44,8 @@ export default function RequestFriend({ user,curUser }) {
         is_accept: 0
       }).toString();
       const uri =
-        `${process.env.REACT_APP_BASE_URL}/friend/set_accept_friend?` + params;
-      const rejectesponse = await axios.post(uri);
+        `${process.env.REACT_APP_BASE_URL}/friends/decline-request-friend`;
+      const rejectesponse = await axios.post(uri,{requesterId: user.id},opts);
       window.location.reload(true);
       console.log('rejectesponse: ', rejectesponse);
     } catch (err) {
@@ -52,12 +59,12 @@ export default function RequestFriend({ user,curUser }) {
       <CardMedia
         component="img"
         height="140"
-        image={ user?.avatar ? user?.avatar : "/assets/person/noAvatar.png"}
+        image={ user?.avatar ? `${process.env.REACT_APP_MEDIA_URL}/${user?.avatar}` : "/assets/person/noAvatar.png"}
         alt=""
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {user?.username || "Lizard Alina"}
+          {user?.name || "Lizard Alina"}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {user.same_friends + " same friend"}

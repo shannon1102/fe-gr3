@@ -14,7 +14,7 @@ export default function Comment({ comment }) {
         className="cmtUserAvatar"
         src={
           comment?.poster?.avatar
-            ? comment?.poster?.avatar
+            ? `${process.env.REACT_APP_MEDIA_URL}/${comment?.poster?.avatar}`
             : PF + "person/noAvatar.png"
         }
         alt=""

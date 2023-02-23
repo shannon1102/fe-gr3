@@ -13,7 +13,7 @@ import { AuthContext } from "../../context/AuthContext";
 import LogoutDropDown from "./logoutDropDown/LogoutDropDown";
 // import Popup from "../post/popup/PostHandlePopup";
 
-export default function Topbar() {
+export default function Topbar({isContainSearch}) {
   const { user } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   // let userID = user.id;
@@ -23,14 +23,14 @@ export default function Topbar() {
         <Link to="/" style={{ textDecoration: "none" }}>
           <span className="logo">TroNet</span>
         </Link>
-        <div className="searchbar">
+        {isContainSearch && <div className="searchbar">
           <Search className="searchIcon" />
           <input placeholder="Search on TroNet" className="searchInput" />
-        </div>
+        </div>}
       </div>
       <div className="topbarCenter">
         <div className="topbarIcons">
-          <Link to={`/product`} style={{ textDecoration: "none" }}>
+          <Link to={`/market`} style={{ textDecoration: "none" }}>
             <div className="topbarIconItem">
               <AddShoppingCart />
               <span className="topbarIconBadge">1</span>
@@ -66,7 +66,7 @@ export default function Topbar() {
         <span className="topBarRightAvatar">
           <Link to={`/profile/${user.id}`}>
             <img
-              src={user.avatar ? user.avatar : PF + "person/noAvatar.png"}
+              src={user.avatar ? `${process.env.REACT_APP_MEDIA_URL}/${user.avatar}` : PF + "person/noAvatar.png"}
               alt=""
               className="topbarImg"
             />

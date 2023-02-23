@@ -2,21 +2,23 @@ import "./profile.css";
 import Topbar from "../../components/topbar/Topbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Feed from "../../components/feed/Feed";
-import Rightbar from "../../components/rightbar/Rightbar";
+import Rightbar from "../../components/rightbar/ProfileRightbar";
 import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
 import { AuthContext } from "../../context/AuthContext";
 import EditUserInfoModal from "./editUserInfoModal/EditUserInfoModal";
+import ProfileRightbar from "../../components/rightbar/ProfileRightbar";
 
 export default function Profile() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [user, setUser] = useState({});
   const [updateAvatarUrl, setUpdateAvatarUrl] = useState(null);
-  const userID = useParams().user_id;
-  console.log('userIDDDDDDDDDD: ', userID);
+  let userId = useParams().user_id;
+  console.log('userIdDDDDDDDDD: ', userId);
   // const [isEditUserInfo,setEditUserInfo] = useState(false);
   const { user: currentUser } = useContext(AuthContext);
+  console.log("CurrrentUSer",currentUser);
   const avatarUploadRef = useRef(null);
 
   function handleChangeAvatar(e) {
@@ -27,27 +29,27 @@ export default function Profile() {
   }
 
   useEffect(() => {
-    console.log("dadadad value", userID);
+    console.log("dadadad value", userId);
    
     const params = new URLSearchParams({
       token: currentUser.token,
-      user_id: userID,
+      user_id: userId,
     }).toString();
     
     console.log('params: ', params);
     const url =
-      `${process.env.REACT_APP_BASE_URL}/user/get_user_info?` + params;
+      `${process.env.REACT_APP_BASE_URL}/profile/${userId}`;
     const fetchUser = async () => {
-      const res = await axios.post(url);
+      const res = await axios.get(url);
       console.log("res get Info: ", res.data);
-      setUser(res.data);
+      setUser(res.data.result);
     };
     fetchUser();
-  }, [userID, currentUser]);
+  }, [userId]);
   console.log("dadadad", user);
   return (
     <>
-      <Topbar />
+      <Topbar isContainSearch={true}/>
       <div className="profile">
         <Sidebar />
         <div className="profileRight">
@@ -65,7 +67,7 @@ export default function Profile() {
               <input ref={avatarUploadRef} type="file" hidden onChange={handleChangeAvatar}></input>
               <img
                 className="profileUserImg"
-                src={updateAvatarUrl != null ? updateAvatarUrl : (user.avatar ? user.avatar : PF + "person/noAvatar.png")}
+                src={updateAvatarUrl != null ? updateAvatarUrl : (user.avatar ? `${process.env.REACT_APP_MEDIA_URL}/${user.avatar}` : PF + "person/noAvatar.png")}
                 alt=""
                 onClick={() => avatarUploadRef.current.click()}
               />
@@ -76,8 +78,8 @@ export default function Profile() {
             </div>
           </div>
           <div className="profileRightBottom">
-            <Feed userID={userID} />
-            {user.id && <Rightbar user={user}/>}
+            <Feed userId={userId} />
+            <ProfileRightbar userId={userId}/>
           </div>
         </div>
       </div>

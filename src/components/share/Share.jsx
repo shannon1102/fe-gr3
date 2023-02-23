@@ -11,6 +11,7 @@ import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 
 export default function Share() {
+  const mediaUrl = `${process.env.REACT_APP_BASE_URL}/media`;
   const { user } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const desc = useRef();
@@ -34,7 +35,6 @@ export default function Share() {
   const submitHandler = async (e) => {
     e.preventDefault();
     const url = `${process.env.REACT_APP_BASE_URL}/posts?`;
-    const mediaUrl = `${process.env.REACT_APP_BASE_URL}/media`;
 
     if (files) {
       try {
@@ -77,11 +77,11 @@ export default function Share() {
         <div className="shareTop">
           <img
             className="shareProfileImg"
-            src={user.avatar ? user.avatar : PF + "person/noAvatar.png"}
+            src={user.avatar ? `${mediaUrl}/${user.avatar}` : PF + "person/noAvatar.png"}
             alt=""
           />
           <input
-            placeholder={"What's in your mind " + user.username + "?"}
+            placeholder={"Bạn đang nghĩ gì " + user.name + "?"}
             className="shareInput"
             ref={desc}
           />
@@ -108,7 +108,7 @@ export default function Share() {
           <div className="shareOptions">
             <label htmlFor="file" className="shareOption">
               <PermMedia htmlColor="tomato" className="shareIcon" />
-              <span className="shareOptionText">Photo or Video</span>
+              <span className="shareOptionText">Ảnh/videos</span>
               <input
                 style={{ display: "none" }}
                 type="file"
@@ -118,7 +118,7 @@ export default function Share() {
                 multiple
               />
             </label>
-            <div className="shareOption">
+            {/* <div className="shareOption">
               <Label htmlColor="blue" className="shareIcon" />
               <span className="shareOptionText">Tag</span>
             </div>
@@ -126,13 +126,14 @@ export default function Share() {
               <Room htmlColor="green" className="shareIcon" />
               <span className="shareOptionText">Location</span>
             </div>
+            */}
             <div className="shareOption">
               <EmojiEmotions htmlColor="goldenrod" className="shareIcon" />
-              <span className="shareOptionText">Feelings</span>
-            </div>
+              <span className="shareOptionText">Cảm thấy</span>
+            </div> 
           </div>
           <button className="shareButton" type="submit">
-            Share
+            Đăng
           </button>
         </form>
       </div>

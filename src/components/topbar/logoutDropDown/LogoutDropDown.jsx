@@ -3,7 +3,7 @@ import { Button, Menu, MenuItem } from "@material-ui/core";
 import "./logoutDropDown.css";
 import { ArrowDropDown } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-
+import "./logoutDropDown.css"
 
 export default function LogoutDropDown({ currentUser }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -17,7 +17,7 @@ export default function LogoutDropDown({ currentUser }) {
   const handleLogout = async (e) => {
     try {
       console.log("Logout clicked");
-      await localStorage.removeItem("user");
+      localStorage.removeItem("user");
       
       let checkUser = localStorage.getItem("user");
       console.log("checkUser",checkUser)
@@ -39,8 +39,11 @@ export default function LogoutDropDown({ currentUser }) {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
+        color="#FFFFFF"
+        variant="text"
+        
       >
-        <ArrowDropDown />
+        <ArrowDropDown className="arrowLogout" />
       </Button>
       <Menu
         id="basic-menu"

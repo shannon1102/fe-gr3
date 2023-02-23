@@ -3,6 +3,7 @@ import "./login.css";
 import { loginCall } from "../../apiCalls";
 import { AuthContext } from "../../context/AuthContext";
 import { CircularProgress } from "@material-ui/core";
+import { Link, Redirect } from "react-router-dom";
 require('dotenv').config()
 
 export default function Login() {
@@ -24,7 +25,7 @@ export default function Login() {
         <div className="loginLeft">
           <h3 className="loginLogo">TroNet</h3>
           <span className="loginDesc">
-            Connect with friends and the world around you on Neverland.
+            Kết bạn với tất cả mọi người trên TroNet.
           </span>
         </div>
         <div className="loginRight">
@@ -37,7 +38,7 @@ export default function Login() {
               ref={email}
             />
             <input
-              placeholder="Password"
+              placeholder="Mật khẩu"
               type="password"
               required
               minLength="6"
@@ -48,17 +49,24 @@ export default function Login() {
               {isFetching ? (
                 <CircularProgress color="white" size="20px" />
               ) : (
-                "Log In"
+                "Đăng nhập"
               )}
             </button>
-            <span className="loginForgot">Forgot Password?</span>
-            <button className="loginRegisterButton">
-              {isFetching ? (
-                <CircularProgress color="white" size="20px" />
-              ) : (
-                "Create a New Account"
-              )}
-            </button>
+            <span className="loginForgot">Quên mật khẩu?</span>
+            <Link to="/register" style={{ textDecoration: 'none' }}>
+              <button
+                className="loginRegisterButton"
+                onClick={() => {
+                  // return
+                }}
+              >
+                {isFetching ? (
+                  <CircularProgress color="white" size="20px" />
+                ) : (
+                  "Tạo mới tài khoản"
+                )}
+              </button>
+            </Link>
           </form>
         </div>
       </div>

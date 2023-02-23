@@ -36,7 +36,7 @@ export const logoutCall = async (token, dispatch) => {
     // const res = await axios.post(url);
     // console.log('res: ', res);
     dispatch({ type: "LOGOUT_SUCCESS", payload: null });
-    window.location.reload(true);
+
   } catch (err) {
     dispatch({ type: "LOGOUT_FAILURE", payload: err });
   }

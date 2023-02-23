@@ -13,20 +13,25 @@ export default function SuggestFriendList() {
   const [suggestUser, setSuggestUser] = useState([]);
   // const userID = useParams().user_id;
   const { user: currentUser } = useContext(AuthContext);
+  const opts = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  opts.headers.Authorization = "Bearer " + currentUser.token;
   useEffect(() => {
     const params = new URLSearchParams({
-      token: currentUser.token,
-      index: 0,
-      count: 50,
+      offset: 0,
+      limit: 100,
     }).toString();
     const url =
-      `${process.env.REACT_APP_BASE_URL}/friend/get_list_suggested_friends?` +
-      params;
+      `${process.env.REACT_APP_BASE_URL}/friends/suggested-friends`;
     const fetchUser = async () => {
-      const res = await axios.post(url);
+      const res = await axios.get(url,opts);
       console.log("res get suggested friend: ", res.data);
-      console.log(res?.data?.data?.list_user);
-      setSuggestUser(res?.data?.data?.list_users);
+      console.log(res?.data?.result);
+      setSuggestUser(res?.data?.result);
     };
     fetchUser();
   }, [currentUser]);
@@ -43,13 +48,13 @@ export default function SuggestFriendList() {
       </>
 
       <Box
-        // sx={{ flexGrow: 1 }}
-        sx={{ width: 300 }}
+        sx={{ flexGrow: 1 }}
+        // sx={{ width: 300 }}
       >
         <Grid container spacing={3}>
           {suggestUser?.length > 0 &&
             suggestUser.map((user) => (
-              <Grid item xs={2} key={user.user_id}>
+              <Grid item xs={2.5} key={user.id}>
                 <SuggestFriend user={user} curUser={currentUser}>
                   {" "}
                 </SuggestFriend>

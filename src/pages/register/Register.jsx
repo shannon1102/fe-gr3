@@ -2,26 +2,32 @@ import axios from "axios";
 import { useRef } from "react";
 import "./register.css";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 
 export default function Register() {
   const name = useRef();
-  const phoneNumber = useRef();
+  const email = useRef();
+  const phone = useRef();
   const password = useRef();
   const passwordAgain = useRef();
   const history = useHistory();
+  console.log("BASEURLLLL", process.env.REACT_APP_BASE_URL);
+  const baseURL = process.env.REACT_APP_BASE_URL;
 
   const handleClick = async (e) => {
     e.preventDefault();
     if (passwordAgain.current.value !== password.current.value) {
-      passwordAgain.current.setCustomValidity("Passwords don't match!");
+      console.log("Passwordm",passwordAgain,password)
+      passwordAgain.current.setCustomValidity("Mật khẩu không giống nhau");
     } else {
       const user = {
         name: name.current.value,
-        phoneNumber: phoneNumber.current.value,
+        email: email.current.value,
         password: password.current.value,
+        phone: phone.current.value
       };
       try {
-        await axios.post("/auth/register", user);
+        await axios.post(`${baseURL}/auth/register`, user);
         history.push("/login");
       } catch (err) {
         console.log(err);
@@ -30,48 +36,57 @@ export default function Register() {
   };
 
   return (
-    <div className="login">
-      <div className="loginWrapper">
-        <div className="loginLeft">
-          <h3 className="loginLogo">TroNet</h3>
-          <span className="loginDesc">
-            Connect with friends and the world around you on TroNet.
+    <div className="register">
+      <div className="registerWrapper">
+        <div className="registerLeft">
+          <h3 className="registerLogo">TroNet</h3>
+          <span className="registerDesc">
+              Kết bạn với tất cả mọi người trên TroNet.
           </span>
         </div>
-        <div className="loginRight">
-          <form className="loginBox" onSubmit={handleClick}>
+        <div className="registerRight">
+          <form className="registerBox" onSubmit={handleClick}>
             <input
-              placeholder="Username"
+              placeholder="Tên"
               required
               ref={name}
-              className="loginInput"
+              className="registerInput"
             />
-            <input
-              placeholder="Phone number"
+             <input
+              placeholder="Số điện thoại"
               required
-              ref={phoneNumber}
-              className="loginInput"
+              ref={phone}
+              className="registerInput"
               type="tel"
             />
             <input
-              placeholder="Password"
+              placeholder="Email"
+              required
+              ref={email}
+              className="registerInput"
+              type="tel"
+            />
+            <input
+              placeholder="Mật khẩu"
               required
               ref={password}
-              className="loginInput"
+              className="registerInput"
               type="password"
               minLength="6"
             />
             <input
-              placeholder="Password again"
+              placeholder="Nhập lại mật khẩu"
               required
               ref={passwordAgain}
-              className="loginInput"
+              className="registerInput"
               type="password"
             />
-            <button className="loginButton" type="submit">
-              Sign Up
+            <button className="registerButton" type="submit">
+              Đăng ký
             </button>
-            <button className="loginRegisterButton">Log into Account</button>
+            <Link to="/login" style={{ textDecoration: 'none' }}>
+               <button className="registerRegisterButton">Quay lại trang đăng nhập</button>
+            </Link>
           </form>
         </div>
       </div>

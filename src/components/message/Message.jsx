@@ -10,7 +10,7 @@ export default function Message({ message, own }) {
           className="messageImg"
           src={
             message?.sender?.avatar
-                  ? message?.sender?.avatar
+                  ? `${process.env.REACT_APP_MEDIA_URL}/${message?.sender?.avatar}`
                   : PF + "person/noAvatar.png"
           }
           alt=""

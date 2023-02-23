@@ -5,11 +5,19 @@ import "./conversation.css";
 export default function Conversation({ conversation, currentUser }) {
   const [user, setUser] = useState(null);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const opts = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  opts.headers.Authorization = "Bearer " + currentUser.token;
+
 
   useEffect(() => {
     console.log("conversation",conversation)
-    const friend = conversation.partner;
-
+    const friend = conversation.firstUser.id == currentUser.id ?  conversation.secondUser : conversation.firstUser ;
+    
     const getUser = async () => {
       try {
         const params = new URLSearchParams({
@@ -19,11 +27,11 @@ export default function Conversation({ conversation, currentUser }) {
         }).toString();
   
         const url =
-          `${process.env.REACT_APP_BASE_URL}/user/get_user_info?` + params;
+          `${process.env.REACT_APP_BASE_URL}/profile/${friend.id}`;
   
-        const res = await axios.post(url);
+        const res = await axios.get(url,opts);
         console.log('res friend in conversation: ', res);
-        setUser(res?.data?.data);
+        setUser(res?.data?.result);
       } catch (err) {
         console.log(err);
       }
@@ -37,12 +45,12 @@ export default function Conversation({ conversation, currentUser }) {
         className="conversationImg"
         src={
           user?.avatar
-            ? user?.avatar
+            ? `${process.env.REACT_APP_MEDIA_URL}/${user?.avatar}`
             : PF + "person/noAvatar.png"
         }
         alt=""
       />
-      <span className="conversationName">{user?.username || "user" + user?.id.substring(0, 8)}</span>
+      <span className="conversationName">{user?.name || "user" + user?.id.substring(0, 8)}</span>
     </div>
   );
 }

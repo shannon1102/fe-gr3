@@ -70,12 +70,12 @@ export default function CmtPopup({ post, currentUser }) {
       >
         {console.log(post, currentUser)}
         {checkOwner(post, currentUser) && (
-          <MenuItem onClick={handleEdit}>Edit Port</MenuItem>
+          <MenuItem onClick={handleEdit}>Edit Post</MenuItem>
         )}
         {checkOwner(post, currentUser) && (
-          <MenuItem onClick={handleDelete}>Delete Port</MenuItem>
+          <MenuItem onClick={handleDelete}>Delete Post</MenuItem>
         )}
-        <MenuItem onClick={handleReport}>Report Port</MenuItem>
+        <MenuItem onClick={handleReport}>Report Post</MenuItem>
       </Menu>
     
     {isEditPost && <Modal  post={post} currentUser= {currentUser} setIsOpen={setIsEditPost}/>}

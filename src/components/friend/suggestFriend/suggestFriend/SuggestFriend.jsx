@@ -10,16 +10,21 @@ import {
 import "./suggestFriend.css";
 import axios from "axios";
 export default function SuggestFriend({  user,curUser  }) {
+  const opts = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
 
+  opts.headers.Authorization = "Bearer " + curUser.token;
   const handleAddClick = async ()=>{
     try {
-      const params = new URLSearchParams({
-        token: curUser.token,
-        user_id:user.user_id,
-      }).toString();
+      const params = {
+        addresseeId:user.id,
+      };
       const uri =
-        `${process.env.REACT_APP_BASE_URL}/friend/set_request_friend?` + params;
-      const acceptResponse = await axios.post(uri);
+        `${process.env.REACT_APP_BASE_URL}/friends/add-friend`;
+      const acceptResponse = await axios.post(uri,params,opts);
       console.log('friend Response: ', acceptResponse);
       window.location.reload(true);
 
@@ -31,14 +36,12 @@ export default function SuggestFriend({  user,curUser  }) {
 
   const handleRemoveClick =async ()=>{
     try {
-      const params = new URLSearchParams({
-        token: curUser.token,
-        user_id:user.id,
-        is_accept: 0
-      }).toString();
+      const params = {
+        requesterId:user.id,
+      };
       const uri =
-        `${process.env.REACT_APP_BASE_URL}/friend/set_accept_friend?` + params;
-      const rejectesponse = await axios.post(uri);
+        `${process.env.REACT_APP_BASE_URL}/friends/accept-friend`;
+      const rejectesponse = await axios.post(uri,params,opts);
       window.location.reload(true);
       console.log('rejectesponse: ', rejectesponse);
     } catch (err) {
@@ -51,15 +54,15 @@ export default function SuggestFriend({  user,curUser  }) {
       <CardMedia
         component="img"
         height="140"
-        image= { user?.avatar ? user?.avatar :  "/assets/person/noAvatar.png"}
+        image= { user?.avatar ? `${process.env.REACT_APP_MEDIA_URL}/${user?.avatar}` :  "/assets/person/noAvatar.png"}
         alt=""
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {user?.username || "user" + user?.user_id?.substring(0, 8)}
+          {user?.name || "user" + user?.id?.substring(0, 8)}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-         {user.same_friends + ' same friend'}
+         {user?.same_friends + ' same friend'}
         </Typography>
       </CardContent>
       <CardActions>

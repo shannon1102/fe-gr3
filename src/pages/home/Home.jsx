@@ -1,18 +1,21 @@
 import Topbar from "../../components/topbar/Topbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Feed from "../../components/feed/Feed";
-import Rightbar from "../../components/rightbar/Rightbar";
 import "./home.css"
+import FeedRightbar from "../../components/rightbar/FeedRightBar";
 
 export default function Home({user}) {
   return (
     <>
-      <Topbar />
+      <Topbar isContainSearch={true}/>
       <div className="homeContainer">
-        <Sidebar />
-        <Feed/>
-        {/* <Rightbar/> */}
-      </div>
+        {/* <div className= "allContainer"> */}
+        <Sidebar  className="allContainerItem"/>
+        <Feed className="allContainerItem"/>
+        <FeedRightbar className="allContainerItem"/>
+        </div>
+       
+      {/* </div> */}
     </>
   );
 }

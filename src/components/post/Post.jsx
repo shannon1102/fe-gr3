@@ -2,17 +2,20 @@ import "./post.css";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { format } from "timeago.js";
-import { Link } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import PostHandlePopup from "./popup/PostHandlePopup";
-import {
-  Typography,
-} from "@material-ui/core";
+import { Switch, Typography } from "@material-ui/core";
 import { ChatBubbleOutline } from "@material-ui/icons";
 import CommentExpand from "./comment/CommentExpand";
 import PostDetail from "../../pages/postDetail/PostDetail";
+import PostMedia from "../postMedias/PostMedia";
+require("dotenv").config();
 
 export default function Post({ post }) {
+  const mediaUrl = `${process.env.REACT_APP_BASE_URL}/media`;
+
+
   const [like, setLike] = useState(post.like);
   const [isLiked, setIsLiked] = useState(post.is_liked);
   const [isExpandComment, setIsExpandComment] = useState(false);
@@ -39,6 +42,14 @@ export default function Post({ post }) {
     setLike(isLiked === "1" ? parseInt(like) - 1 : parseInt(like) + 1);
     setIsLiked(isLiked === "0" ? "1" : "0");
   };
+  console.log("postttttt", post);
+  let postOneImgUrl = "";
+  if (post.mediaMaps?.length === 1) {
+    postOneImgUrl =
+      `${process.env.REACT_APP_NODEJS_BE_FILE_FOLDER}` +
+      post.mediaMaps[0].media.link;
+    console.log("postImgUrl", postOneImgUrl);
+  }
 
   return (
     <>
@@ -50,7 +61,7 @@ export default function Post({ post }) {
                 <Link to={`/profile/${user.id}`}>
                   <img
                     className="postProfileImg"
-                    src={user.avatar ? user.avatar : PF + "person/noAvatar.png"}
+                    src={user.avatar ? `${mediaUrl}/${user.avatar}` : PF + "person/noAvatar.png"}
                     alt=""
                   />
                 </Link>
@@ -64,26 +75,45 @@ export default function Post({ post }) {
                 ></PostHandlePopup>
               </div>
             </div>
-
-            <div className="postCenter">
-              {post.description && (
-                // <span className="postText">{post.described}</span>
-                <Typography>{post.description}</Typography>
-              )}
-              {post.mediaMap?.length == 1 && (
-                <img className="postImg" src={"http://localhost:4000/static/" + post.mediaMaps[0].media.link} alt="" />
-              )}
-
-              {post.mediaMaps?.length > 1 && (
-                <PostDetail images={post.mediaMaps} ></PostDetail>
+            {/* <Link to={`/posts/${post.id}`}   post={post}>
+              <div className="postCenter" onClick={
+                ()=>{
+                 console.log("Clickkkkk");
                
-              )}
-              {post.video && (
-                <video className="postVideo" width="750" height="700" controls>
-                  <source src={post.video.url} type="video/mp4" />
-                </video>
-              )}
-            </div>
+                    // return   <PostDetail post={post}/>
+                    return <PostDetail post={post}></PostDetail>
+                  
+                }
+              }> */}
+                {post.description && (
+                  // <span className="postText">{post.described}</span>
+                  <Typography>{post.description}</Typography>
+                )}
+                {post.mediaMaps?.length === 1 && (
+                  <img
+                    className="postImg"
+                    src={postOneImgUrl}
+                    alt={post.description}
+                  />
+                )}
+
+                {post.mediaMaps?.length > 1 && (
+                  <PostMedia mediaMaps={post.mediaMaps}></PostMedia>
+                  // <PostDetail images={post.mediaMaps}></PostDetail>
+                )}
+                {post.video && (
+                  <video
+                    className="postVideo"
+                    width="750"
+                    height="700"
+                    controls
+                  >
+                    <source src={post.video.url} type="video/mp4" />
+                  </video>
+                )}
+              {/* </div> */}
+            {/* </Link> */}
+            {/* <hr className="sidebarHr" /> */}
             <div className="postBottom">
               <div className="postBottomLeft">
                 <img
@@ -113,11 +143,18 @@ export default function Post({ post }) {
                   setIsExpandComment(!isExpandComment);
                 }}
               >
-                <ChatBubbleOutline />
-                <span className="postCommentText">{post.comment} comments</span>
+                <img
+                  className="likeIcon"
+                  src={`${PF}comment.png`}
+                  onClick={likeHandler}
+                  alt=""
+                />
+                {/* <span className="postCommentText">{post.comment} comments</span> */}
               </div>
             </div>
+            {/* <hr className="sidebarHr" /> */}
           </div>
+
           {isExpandComment && <CommentExpand postId={post?.id} />}
         </>
       </div>

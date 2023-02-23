@@ -10,19 +10,40 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
   console.log("currentUser: ", currentUser);
   const username = useRef();
   const description = useRef();
-  const city = useRef();
-  const country = useRef();
+  const email = useRef();
+  const phone = useRef();
+  const address = useRef();
+  const sex = useRef();
+  const age = useRef();
+  const relationStatus = useRef();
+  const identityCardID = useRef();
 
   const [isLoading, setIsLoading] = useState(false);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const avatarUploadRef = useRef(null);
-  const coverrUploadRef = useRef(null);
+  const coverUploadRef = useRef(null);
   const [updateAvatarUrl, setUpdateAvatarUrl] = useState(null);
   const [updateCoverUrl, setUpdateCoverUrl] = useState(null);
   const [fileCover, setFileCover] = useState(null);
   const [fileAvatar, setFileAvatar] = useState(null);
 
-  const { user } = useContext(AuthContext);
+  // const { user } = useContext(AuthContext);
+  const url = `${process.env.REACT_APP_BASE_URL}/me`;
+  const mediaUrl = `${process.env.REACT_APP_BASE_URL}/media`;
+
+  const opts = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const fileOpts = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  };
+  fileOpts.headers.Authorization = "Bearer " + currentUser.token;
+  opts.headers.Authorization = "Bearer " + currentUser.token;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,37 +56,46 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    const params = new URLSearchParams({
-      username: username.current.value,
-      description: description.current.value,
-      city: city.current.value,
-      country: country.current.value,
-      token: user.token,
-    }).toString();
-    const url =
-      `${process.env.REACT_APP_BASE_URL}/user/set_user_info?` + params;
-
+    let params = {
+      name: username.current.value,
+      // description: description.current.value,
+      email: email.current.value,
+      address: address.current.value,
+      phone: phone.current.value,
+      sex: sex.current.value,
+      age: age.current.value,
+    };
+ 
     if (fileCover || fileAvatar) {
       console.log("fileCover: ", fileCover);
       console.log("fileAvatar: ", fileAvatar);
       const data = new FormData();
 
-      if (fileCover?.type.split("/")[0] === "image") {
-        data.append("cover_image", fileCover);
-      }
-      if (fileAvatar?.type.split("/")[0] === "image") {
-        data.append("avatar", fileAvatar);
-      }
-
       try {
-        await axios.post(url, data);
+        if (fileCover?.type.split("/")[0] === "image") {
+          data.append("files", fileCover);
+          let uploadedCover = await axios.post(mediaUrl, data, fileOpts);
+          console.log("uploadedCover",uploadedCover);
+          params.coverPicture = uploadedCover.data.result[0].id;
+        }
+        
+        if (fileAvatar?.type.split("/")[0] === "image") {
+          data.append("files", fileAvatar);
+          let uploadedAvatar = await axios.post(mediaUrl, data, fileOpts);
+          console.log("uploadedCover",uploadedAvatar);
+          params.avatar = uploadedAvatar.data.result[0].id;
+        }
+
+        let updateInfo = await axios.put(url, params,opts);
+        console.log("updateInfo", updateInfo);
+
         window.location.reload(true);
       } catch (err) {
         console.log(err);
       }
     } else {
       try {
-        await axios.post(url);
+        await axios.put(url,params,opts);
         window.location.reload(true);
       } catch (err) {}
     }
@@ -94,7 +124,7 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
     <div className="editUserModalContainer">
       <div className="editUserModal">
         <div className="editUserModalHeader">
-          <h2>Update user information</h2>
+          <h2>Cập nhật thông tin cá nhân</h2>
           <Button
             className="editUserCloseBtnModal"
             onClick={() => {
@@ -135,7 +165,13 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
                 <img
                   className="editUserCover"
                   // src={PF + "noBackground.jpg"}
-                  src={PF + "person/noCover.jpg"}
+                  src= {
+                    updateCoverUrl != null
+                      ? updateCoverUrl
+                      : currentUser.imageCover
+                      ? `${mediaUrl}/${currentUser.imageCover}`
+                      : PF + "person/noCover.jpg"
+                  }
                   alt=""
                 />
               </div>
@@ -145,7 +181,7 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
               <label for="cover-upload" className="uploadLabel">
                 <CloudUpload htmlColor="tomato" className="uploadIcon" />
                 <span>
-                  <h3>Profile cover picture</h3>
+                  <h3>Ảnh bìa</h3>
                 </span>
                 <input
                   style={{ display: "none" }}
@@ -165,7 +201,7 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
                   updateAvatarUrl != null
                     ? updateAvatarUrl
                     : currentUser.avatar
-                    ? currentUser.avatar
+                    ? `${mediaUrl}/${currentUser.avatar}`
                     : PF + "person/noAvatar.png"
                 }
                 alt=""
@@ -186,7 +222,7 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
                 <CloudUpload htmlColor="tomato" className="uploadIcon" />
 
                 <span>
-                  <h3> Avatar picture</h3>
+                  <h3> Ảnh đại diện</h3>
                 </span>
                 <input
                   style={{ display: "none" }}
@@ -202,63 +238,90 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
 
             <form className="editUserBox" onSubmit={handleSubmit}>
               <div className="editUserInputContainer">
-                <label className="labelInputEditUser" for="editUserUsername">
-                  User name
+                <label className="labelInputEditUser" for="editUserName">
+                  Tên:
                 </label>
                 <input
-                  label="Username"
+                  label="Name"
                   placeholder="Trai BK"
-                  defaultValue={currentUser?.username}
+                  defaultValue={currentUser?.name}
                   minLength="6"
                   type="text"
                   required
                   className="editUserInput"
                   ref={username}
-                  id="editUserUsername"
+                  id="editUserName"
                 />
               </div>
               <div className="editUserInputContainer">
                 <label className="labelInputEditUser" for="editUserUsername">
-                  Description
+                  Điện thoại:
                 </label>
                 <input
                   placeholder="BugsMaker"
-                  defaultValue={currentUser?.description}
+                  defaultValue={currentUser?.phone}
                   type="text"
                   required
                   minLength="6"
                   className="editUserInput"
-                  ref={description}
+                  ref={phone}
                 />
               </div>
               <div className="editUserInputContainer">
                 <label className="labelInputEditUser" for="editUserUsername">
-                  City
+                  Email
                 </label>
                 <input
                   placeholder="Ha Noi"
-                  defaultValue={currentUser?.city}
+                  defaultValue={currentUser?.email}
                   type="text"
                   required
                   className="editUserInput"
-                  ref={city}
+                  ref={email}
                 />
               </div>
               <div className="editUserInputContainer">
                 <label className="labelInputEditUser" for="editUserUsername">
-                  Country
+                  Address
                 </label>
                 <input
-                  placeholder="Vietnam"
-                  defaultValue={currentUser?.country}
+                  placeholder="Hà Nôi, Việt Nam"
+                  defaultValue={currentUser?.address}
                   type="text"
                   required
                   minLength="6"
                   className="editUserInput"
-                  ref={country}
+                  ref={address}
                 />
               </div>
-
+              <div className="editUserInputContainer">
+                <label className="labelInputEditUser" for="editUserUsername">
+                  Giới tính:
+                </label>
+                <input
+                  placeholder="Nam"
+                  defaultValue={currentUser?.sex}
+                  type="text"
+                  required
+                  minLength="6"
+                  className="editUserInput"
+                  ref={sex}
+                />
+              </div>
+              <div className="editUserInputContainer">
+                <label className="labelInputEditUser" for="editUserUsername">
+                  Tuổi:
+                </label>
+                <input
+                  placeholder="Hà Nôi, Việt Nam"
+                  defaultValue={currentUser?.age}
+                  type="text"
+                  required
+                  minLength="6"
+                  className="editUserInput"
+                  ref={age}
+                />
+              </div>
               <button
                 className="editUserSubmitButton"
                 type="submit"

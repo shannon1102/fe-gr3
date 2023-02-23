@@ -23,13 +23,13 @@ export default function Modal({post,currentUser,setIsOpen}) {
             className="shareProfileImg"
             src={
               currentUser?.data?.avatar
-                ? currentUser?.data?.avatar
+                ? `${process.env.REACT_APP_MEDIA_URL}/${currentUser?.data?.avatar}`
                 : PF + "person/noAvatar.png"
             }
             alt=""
           />
           <input
-            placeholder={"What's in your mind " + currentUser?.username + "?"}
+            placeholder={"Bạn đang nghĩ gì " + currentUser?.name + "?"}
             className="shareInput"
             // ref={desc}
           />
@@ -46,7 +46,7 @@ export default function Modal({post,currentUser,setIsOpen}) {
           <div className="shareOptions">
             <label htmlFor="file" className="shareOption">
               <PermMedia htmlColor="tomato" className="shareIcon" />
-              <span className="shareOptionText">Photo or Video</span>
+              <span className="shareOptionText">Ảnh/Video</span>
               <input
                 style={{ display: "none" }}
                 type="file"
@@ -65,11 +65,11 @@ export default function Modal({post,currentUser,setIsOpen}) {
             </div>
             <div className="shareOption">
               <EmojiEmotions htmlColor="goldenrod" className="shareIcon" />
-              <span className="shareOptionText">Feelings</span>
+              <span className="shareOptionText">Cảm thấy</span>
             </div>
           </div>
           <button className="shareButton" type="submit">
-            Share
+            Đăng
           </button>
         </form>
       </div>

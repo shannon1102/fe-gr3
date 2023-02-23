@@ -11,23 +11,29 @@ import './requestFriendList.css'
 
 export default function RequestFriendList() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  const [requestUser, setRequestUser] = useState([]);
+  const [requestUsers, setRequestUsers] = useState([]);
 
   const { user: currentUser } = useContext(AuthContext);
 
   useEffect(() => {
+
+    const opts = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+  
+    opts.headers.Authorization = "Bearer " + currentUser.token;
     const params = new URLSearchParams({
-      token: currentUser.token,
-      index: 0,
-      count: 50,
+      limit: 30,
+      offset: 0,
     }).toString();
     const url =
-      `${process.env.REACT_APP_BASE_URL}/friend/get_requested_friends?` +
-      params;
+      `${process.env.REACT_APP_BASE_URL}/friends/requested-friends`;
     const fetchUser = async () => {
-      const res = await axios.post(url);
+      const res = await axios.get(url,opts);
       console.log("res get request friend Info: ", res.data);
-      setRequestUser(res.data?.request);
+      setRequestUsers(res.data?.result);
     };
     fetchUser();
   }, [currentUser]);
@@ -35,7 +41,7 @@ export default function RequestFriendList() {
   return (
     <>
       <>
-        {requestUser?.length > 0 && (
+        {requestUsers?.length > 0 && (
           <>
             <h1>Request Friends</h1>
             <hr className="hrFiend"></hr>
@@ -47,10 +53,10 @@ export default function RequestFriendList() {
         // sx={{ width: 300 }}
       >
         <Grid container spacing={3}>
-          {requestUser?.length > 0 &&
-            requestUser.map((user) => (
-              <Grid item xs={2} key={user.id}>
-                <RequestFriend user={user} curUser={currentUser}>
+          {requestUsers?.length > 0 &&
+            requestUsers.map((requestUser) => (
+              <Grid item xs={2.5} key={requestUser.id}>
+                <RequestFriend user={requestUser.requester} curUser={currentUser}>
                 </RequestFriend>
               </Grid>
             ))}

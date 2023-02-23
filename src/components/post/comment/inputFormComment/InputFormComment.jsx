@@ -10,12 +10,13 @@ export default function InputFormComment({ user, forwardedRef, sendCmtClick }) {
           <img
             className="commentProfileImg"
             src={
-              user.avatar ? user.avatar : PF + "person/noAvatar.png"
+              user.avatar ? `${process.env.REACT_APP_MEDIA_URL}/${user.avatar}` : PF + "person/noAvatar.png"
             }
             alt=""
           />
           <input
-            placeholder={"What's in your mind " + user.username + "?"}
+            // className={}
+            placeholder={"Viết bình luận ... "}
             className="commentInput"
             ref={forwardedRef}
           />
