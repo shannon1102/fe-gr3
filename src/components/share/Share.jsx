@@ -7,7 +7,7 @@ import {
   Cancel,
 } from "@material-ui/icons";
 import AppButton from "../../components/AppButton/AppButton";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 
@@ -21,7 +21,7 @@ export default function Share({ fetchPosts = () => {} }) {
   const mediaUrl = `${process.env.REACT_APP_BASE_URL}/media`;
   const { user } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  const desc = useRef();
+  const [desc, setDesc] = useState();
   const [files, setFiles] = useState(null);
   const [postState, setPostState] = useState(null);
 
@@ -39,6 +39,11 @@ export default function Share({ fetchPosts = () => {} }) {
   };
 
   opts.headers.Authorization = "Bearer " + user.token;
+
+  const resetForm = () => {
+    setFiles([]);
+    setDesc("");
+  };
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -62,7 +67,7 @@ export default function Share({ fetchPosts = () => {} }) {
         // const uploadMediaRes = await axios.post(mediaUrl, data,opts);
         await axios.post(
           url,
-          { description: desc.current.value, media: [...uploadFilesReps] },
+          { description: desc, media: [...uploadFilesReps] },
           opts
         );
 
@@ -74,14 +79,22 @@ export default function Share({ fetchPosts = () => {} }) {
       }
     } else {
       try {
-        await axios.post(url, { description: desc.current.value }, opts);
-        fetchPosts();
+        console.log(123123);
+        await axios.post(url, { description: desc }, opts);
         setPostState(REQUEST_STATES.SUCCESS);
+        fetchPosts();
       } catch (err) {
+        console.log("err: ", err);
         setPostState(REQUEST_STATES.FAIL);
       }
     }
   };
+  useEffect(() => {
+    console.log("postState: ", postState);
+    if (postState === REQUEST_STATES.SUCCESS) {
+      resetForm();
+    }
+  }, [postState]);
   return (
     <div className="share">
       <div className="shareWrapper">
@@ -98,11 +111,12 @@ export default function Share({ fetchPosts = () => {} }) {
           <input
             placeholder={"Bạn đang nghĩ gì " + user.name + "?"}
             className="shareInput"
-            ref={desc}
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
           />
         </div>
         <div className="shareHr" />
-        {files && (
+        {files && files.length > 0 && (
           <div className="shareImgContainer">
             {Array.from(files ?? []).map((file, index) => {
               if (file.type.split("/")[0] === "image")
