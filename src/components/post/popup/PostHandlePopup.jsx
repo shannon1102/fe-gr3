@@ -11,7 +11,7 @@ export default function PostHandlePopup({ post, currentUser }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const open = Boolean(anchorEl);
-  const [isEditPost,setIsEditPost] = useState(false);
+  const [isEditPost, setIsEditPost] = useState(false);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -25,17 +25,12 @@ export default function PostHandlePopup({ post, currentUser }) {
           "Content-Type": "application/json",
         },
       };
-    
+
       opts.headers.Authorization = "Bearer " + currentUser.token;
-    
-      const params = new URLSearchParams({
-        id: post.id,
-        token: currentUser.token,
-      }).toString();
-      const uri = `${baseUrl}/posts/${post.id}` ;
+      const uri = `${baseUrl}/posts/${post.id}`;
       console.log("uri: ", uri);
-      const deleteResp = await axios.delete(uri,opts);
-      console.log('deleteResp: ', deleteResp);
+      const deleteResp = await axios.delete(uri, opts);
+      console.log("deleteResp: ", deleteResp);
       setAnchorEl(null);
       window.location.reload(true);
     } catch (err) {
@@ -75,20 +70,24 @@ export default function PostHandlePopup({ post, currentUser }) {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
-        style={{ marginRight: "30px" }}
       >
         {console.log(post, currentUser)}
         {checkOwner(post, currentUser) && (
-          <MenuItem onClick={handleEdit}>Edit Port</MenuItem>
+          <MenuItem onClick={handleEdit}>Edit post</MenuItem>
         )}
         {checkOwner(post, currentUser) && (
-          <MenuItem onClick={handleDelete}>Delete Port</MenuItem>
+          <MenuItem onClick={handleDelete}>Delete post</MenuItem>
         )}
-        <MenuItem onClick={handleReport}>Report Port</MenuItem>
+        <MenuItem onClick={handleReport}>Report post</MenuItem>
       </Menu>
-    
-    {isEditPost && <Modal  post={post} currentUser= {currentUser} setIsOpen={setIsEditPost}/>}
-   
+
+      {isEditPost && (
+        <Modal
+          post={post}
+          currentUser={currentUser}
+          setIsOpen={setIsEditPost}
+        />
+      )}
     </div>
   );
 }

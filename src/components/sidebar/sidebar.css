@@ -1,7 +1,7 @@
 .sidebar {
     height: calc(100vh - 70px);
     position: sticky;
-    top: 70px;
+    top: 71px;
     background-color: var(--primary-color);
     border-top-right-radius: 90px;
     box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.15);

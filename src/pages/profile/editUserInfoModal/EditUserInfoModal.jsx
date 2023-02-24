@@ -1,13 +1,11 @@
-import { Button } from "@material-ui/core";
+import { Button, CircularProgress } from "@material-ui/core";
 import { Cancel, CloseRounded, CloudUpload } from "@material-ui/icons";
-import React, { useContext, useRef, useState } from "react";
-import "./editUserInforModal.css";
-import { CircularProgress } from "@material-ui/core";
-import { AuthContext } from "../../../context/AuthContext";
 import axios from "axios";
+import React, { useRef, useState } from "react";
+import AppButton from "../../../components/AppButton/AppButton";
+import "./editUserInforModal.css";
 
 export default function EditUserInfoModal({ currentUser, setIsOpen }) {
-  console.log("currentUser: ", currentUser);
   const username = useRef();
   const description = useRef();
   const email = useRef();
@@ -65,7 +63,7 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
       sex: sex.current.value,
       age: age.current.value,
     };
- 
+
     if (fileCover || fileAvatar) {
       console.log("fileCover: ", fileCover);
       console.log("fileAvatar: ", fileAvatar);
@@ -75,18 +73,18 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
         if (fileCover?.type.split("/")[0] === "image") {
           data.append("files", fileCover);
           let uploadedCover = await axios.post(mediaUrl, data, fileOpts);
-          console.log("uploadedCover",uploadedCover);
+          console.log("uploadedCover", uploadedCover);
           params.coverPicture = uploadedCover.data.result[0].id;
         }
-        
+
         if (fileAvatar?.type.split("/")[0] === "image") {
           data.append("files", fileAvatar);
           let uploadedAvatar = await axios.post(mediaUrl, data, fileOpts);
-          console.log("uploadedCover",uploadedAvatar);
+          console.log("uploadedCover", uploadedAvatar);
           params.avatar = uploadedAvatar.data.result[0].id;
         }
 
-        let updateInfo = await axios.put(url, params,opts);
+        let updateInfo = await axios.put(url, params, opts);
         console.log("updateInfo", updateInfo);
 
         window.location.reload(true);
@@ -95,7 +93,7 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
       }
     } else {
       try {
-        await axios.put(url,params,opts);
+        await axios.put(url, params, opts);
         window.location.reload(true);
       } catch (err) {}
     }
@@ -105,18 +103,12 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
     // const img = ref.current.files[0];
     // const obj = URL.createObjectURL(img);
     // setUrl(obj);
-    console.log("e", e.target);
-    console.log("e Src", e.baseURI);
-    console.log("SSSSS", e.target.getAttribute("src"));
     setUpdateAvatarUrl(URL.createObjectURL(e.target?.files[0]));
     setFileAvatar(e.target.files[0]);
 
     // TODO: API to update to server
   }
   function handleChangeCover(e) {
-    console.log("e", e.target);
-    console.log("e Src", e.baseURI);
-    console.log("SSSSS", e.target.getAttribute("src"));
     setUpdateCoverUrl(URL.createObjectURL(e.target?.files[0]));
     setFileCover(e.target.files[0]);
   }
@@ -124,7 +116,13 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
     <div className="editUserModalContainer">
       <div className="editUserModal">
         <div className="editUserModalHeader">
-          <h2>Cập nhật thông tin cá nhân</h2>
+          <h2
+            style={{
+              marginBottom: "20px",
+            }}
+          >
+            Cập nhật thông tin cá nhân
+          </h2>
           <Button
             className="editUserCloseBtnModal"
             onClick={() => {
@@ -134,7 +132,6 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
             <CloseRounded />
           </Button>
         </div>
-        <hr className="editUserHr" />
         <div className="editUserModalBody">
           <>
             {fileCover && (
@@ -165,7 +162,7 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
                 <img
                   className="editUserCover"
                   // src={PF + "noBackground.jpg"}
-                  src= {
+                  src={
                     updateCoverUrl != null
                       ? updateCoverUrl
                       : currentUser.imageCover
@@ -239,11 +236,11 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
             <form className="editUserBox" onSubmit={handleSubmit}>
               <div className="editUserInputContainer">
                 <label className="labelInputEditUser" for="editUserName">
-                  Tên:
+                  Tên
                 </label>
                 <input
                   label="Name"
-                  placeholder="Trai BK"
+                  placeholder="Nhập tên của bạn"
                   defaultValue={currentUser?.name}
                   minLength="6"
                   type="text"
@@ -255,10 +252,10 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
               </div>
               <div className="editUserInputContainer">
                 <label className="labelInputEditUser" for="editUserUsername">
-                  Điện thoại:
+                  Điện thoại
                 </label>
                 <input
-                  placeholder="BugsMaker"
+                  placeholder="Nhập số điện thoại"
                   defaultValue={currentUser?.phone}
                   type="text"
                   required
@@ -272,7 +269,7 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
                   Email
                 </label>
                 <input
-                  placeholder="Ha Noi"
+                  placeholder="Nhập địa chỉ email"
                   defaultValue={currentUser?.email}
                   type="text"
                   required
@@ -285,7 +282,7 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
                   Address
                 </label>
                 <input
-                  placeholder="Hà Nôi, Việt Nam"
+                  placeholder="Nhập địa chỉ"
                   defaultValue={currentUser?.address}
                   type="text"
                   required
@@ -296,44 +293,39 @@ export default function EditUserInfoModal({ currentUser, setIsOpen }) {
               </div>
               <div className="editUserInputContainer">
                 <label className="labelInputEditUser" for="editUserUsername">
-                  Giới tính:
+                  Giới tính
                 </label>
                 <input
                   placeholder="Nam"
                   defaultValue={currentUser?.sex}
                   type="text"
-                  required
-                  minLength="6"
                   className="editUserInput"
                   ref={sex}
                 />
               </div>
               <div className="editUserInputContainer">
                 <label className="labelInputEditUser" for="editUserUsername">
-                  Tuổi:
+                  Tuổi
                 </label>
                 <input
-                  placeholder="Hà Nôi, Việt Nam"
+                  placeholder="Nhập tuổi của bạn"
                   defaultValue={currentUser?.age}
                   type="text"
-                  required
-                  minLength="6"
                   className="editUserInput"
                   ref={age}
                 />
               </div>
-              <button
-                className="editUserSubmitButton"
+              <AppButton
+                text="Cập nhật"
                 type="submit"
-                disabled={isLoading}
-                onClick={submitHandler}
-              >
-                {isLoading ? (
-                  <CircularProgress color="white" size="20px" />
-                ) : (
-                  "Submit"
-                )}
-              </button>
+                isLoading={isLoading}
+                addtionalStyles={{
+                  width: "150px",
+                  height: "46px",
+                  borderRadius: "6px",
+                  margin: "10px 0px ",
+                }}
+              ></AppButton>
             </form>
           </>
         </div>
