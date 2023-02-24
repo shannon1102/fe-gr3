@@ -33,32 +33,7 @@ export default function Topbar({ isContainSearch }) {
           <span className="logo">TroNet</span>
         </Link>
       </div>
-      {/* <div className="topbarCenter">
-        <div className="topbarIcons">
-          <Link to={`/market`} style={{ textDecoration: "none" }}>
-            <div className="topbarIconItem">
-              <AddShoppingCart />
-              <span className="topbarIconBadge">1</span>
-            </div>
-          </Link>
-          <Link to={`/friend`} style={{ textDecoration: "none" }}>
-            <div className="topbarIconItem">
-              <PersonPin />
-              <span className="topbarIconBadge">1</span>
-            </div>
-  
-          </Link>
-          <Link to={`/messenger`}>
-            <div className="topbarIconItem">
-              <ChatBubbleOutline />
-              <span className="topbarIconBadge">2</span>
-            </div>
-          </Link>
-        </div>
-      </div> */}
-
-      <div className="topbarRight">
-        {isContainSearch && (
+       {isContainSearch && (
           <div className="searchbar">
             <Search className="searchIcon" />
             <input
@@ -67,6 +42,9 @@ export default function Topbar({ isContainSearch }) {
             />
           </div>
         )}
+
+      <div className="topbarRight">
+
         <Link to={`/messenger`}>
           <div className="topbarIconItem">
             <NotificationsNone

@@ -11,12 +11,19 @@ import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 
-export default function Share() {
+const REQUEST_STATES = {
+  REQUEST: "REQUEST",
+  SUCCESS: "SUCCESS",
+  FAIL: "FAIL",
+};
+
+export default function Share({ fetchPosts = () => {} }) {
   const mediaUrl = `${process.env.REACT_APP_BASE_URL}/media`;
   const { user } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const desc = useRef();
   const [files, setFiles] = useState(null);
+  const [postState, setPostState] = useState(null);
 
   const fileOpts = {
     headers: {
@@ -35,11 +42,10 @@ export default function Share() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const url = `${process.env.REACT_APP_BASE_URL}/posts?`;
-
+    const url = `${process.env.REACT_APP_BASE_URL}/posts`;
+    setPostState(REQUEST_STATES.REQUEST);
     if (files) {
       try {
-        console.log("file: ", files, typeof files);
         const fileArr = Array.from(files);
 
         const uploadFilesReps = await Promise.all(
@@ -54,22 +60,26 @@ export default function Share() {
         );
 
         // const uploadMediaRes = await axios.post(mediaUrl, data,opts);
-        console.log("uploadMediaRes", uploadFilesReps);
         await axios.post(
           url,
           { description: desc.current.value, media: [...uploadFilesReps] },
           opts
         );
 
-        window.location.reload(true);
+        fetchPosts();
+        setPostState(REQUEST_STATES.SUCCESS);
       } catch (err) {
         console.log(err);
+        setPostState(REQUEST_STATES.FAIL);
       }
     } else {
       try {
         await axios.post(url, { description: desc.current.value }, opts);
-        window.location.reload(true);
-      } catch (err) {}
+        fetchPosts();
+        setPostState(REQUEST_STATES.SUCCESS);
+      } catch (err) {
+        setPostState(REQUEST_STATES.FAIL);
+      }
     }
   };
   return (
@@ -94,18 +104,24 @@ export default function Share() {
         <div className="shareHr" />
         {files && (
           <div className="shareImgContainer">
-            {files[0].type.split("/")[0] === "image" && (
-              <img
-                className="shareImg"
-                src={URL.createObjectURL(files[0])}
-                alt=""
-              />
-            )}
-            {files[0].type.split("/")[0] === "video" && (
-              <video width="750" height="500" controls>
-                <source src={URL.createObjectURL(files[0])} type="video/mp4" />
-              </video>
-            )}
+            {Array.from(files ?? []).map((file, index) => {
+              if (file.type.split("/")[0] === "image")
+                return (
+                  <img
+                    key={index}
+                    className="shareImg"
+                    src={URL.createObjectURL(file)}
+                    alt=""
+                  />
+                );
+              if (file.type.split("/")[0] === "video") {
+                return (
+                  <video key={index} width="150" height="150" controls={true}>
+                    <source src={URL.createObjectURL(file)} type="video/mp4" />
+                  </video>
+                );
+              }
+            })}
             <Cancel className="shareCancelImg" onClick={() => setFiles(null)} />
           </div>
         )}
@@ -119,7 +135,13 @@ export default function Share() {
                 type="file"
                 id="file"
                 accept=".png,.jpeg,.jpg,.mp4"
-                onChange={(e) => setFiles(e.target.files)}
+                onChange={(e) => {
+                  if (e.target.files.length > 3) {
+                    alert("Bạn chỉ có thể tải lên tối đa 3 files!");
+                    return;
+                  }
+                  setFiles(e.target.files);
+                }}
                 multiple
               />
             </label>
@@ -140,7 +162,7 @@ export default function Share() {
           <AppButton
             text="Đăng"
             type="submit"
-            isLoading={false}
+            isLoading={postState === REQUEST_STATES.REQUEST}
             addtionalStyles={{
               width: "90px",
               height: "36px",

@@ -1,12 +1,11 @@
 .sidebar {
-    height: calc(100vh - 100px);
-    width: 368px;
-    /* overflow: hidden; */
+    height: calc(100vh - 70px);
     position: sticky;
-    top: 50px;
+    top: 70px;
     background-color: var(--primary-color);
     border-top-right-radius: 90px;
     box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.15);
+    min-width: 366px;
 }
 
 ::-webkit-scrollbar {
@@ -39,7 +38,7 @@
     align-items: center;
     color: #fff;
     padding: 15px 10px 15px 25px;
-    border-radius: 6px;
+    border-radius: 25px;
 }
 
 .sidebarListItem:hover {
