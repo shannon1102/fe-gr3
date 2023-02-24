@@ -6,6 +6,7 @@ import {
   CardMedia,
   Typography,
   Button,
+  Paper,
 } from "@material-ui/core";
 import "./suggestFriend.css";
 import axios from "axios";
@@ -50,7 +51,8 @@ export default function SuggestFriend({  user,curUser  }) {
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Paper>
+      <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         height="140"
@@ -74,5 +76,7 @@ export default function SuggestFriend({  user,curUser  }) {
         </Button>
       </CardActions>
     </Card>
+    </Paper>
+    
   );
 }

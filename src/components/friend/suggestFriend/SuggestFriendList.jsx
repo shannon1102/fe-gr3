@@ -1,6 +1,6 @@
 import * as React from "react";
 // import { styled } from "@material-ui/core";
-import { Grid, Box } from "@material-ui/core";
+import { Grid, Box, Paper } from "@material-ui/core";
 import SuggestFriend from "./suggestFriend/SuggestFriend";
 import { useState } from "react";
 import { useContext } from "react";
@@ -41,8 +41,11 @@ export default function SuggestFriendList() {
       <>
         {suggestUser?.length > 0 && (
           <>
-            <h1>Suggested Friends</h1>
-            <hr className="hrFiend"></hr>
+            <Paper className="friendListTitle">
+                  <h1>Suggested Friends</h1>
+                  <hr className="hrFiend"></hr>
+            </Paper>
+          
           </>
         )}
       </>

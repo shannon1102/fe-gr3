@@ -1,6 +1,6 @@
 import * as React from "react";
 // import { styled } from "@material-ui/core";
-import { Grid, Box } from "@material-ui/core";
+import { Grid, Box, Paper } from "@material-ui/core";
 import RequestFriend from "./requestItem/RequestFriend";
 import { useState } from "react";
 import { useContext } from "react";
@@ -43,8 +43,11 @@ export default function RequestFriendList() {
       <>
         {requestUsers?.length > 0 && (
           <>
-            <h1>Request Friends</h1>
-            <hr className="hrFiend"></hr>
+           <Paper className="friendListTitle">
+              <h1>Request Friends</h1>
+              <hr className="hrFiend"></hr>
+           </Paper>
+          
           </>
         )}
       </>
