@@ -47,6 +47,9 @@ const Header = ({ type }) => {
   const handleSearch = () => {
     history.push("/hotels", { state: { destination, date, options } });
   };
+  const handleAddNewProduct  = () => {
+    history.push("/market/new", { state: { destination, date, options } });
+  };
 
   return (
     <div className="marketHeader">
@@ -262,7 +265,10 @@ const Header = ({ type }) => {
               </div>
               <div className="marketHeaderSearchItem">
                 <button className="marketHeaderBtn" onClick={handleSearch}>
-                  Search
+                  Tìm kiếm
+                </button>
+                <button className="marketHeaderBtn" onClick={handleAddNewProduct}>
+                  Đăng tin
                 </button>
               </div>
             </div>

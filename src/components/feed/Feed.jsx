@@ -15,43 +15,29 @@ import {
 // import Modal from "../post/modal/Modal";
 
 export default function Feed({ userID }) {
-  console.log('userID in feed: ', userID);
   const [posts, setPosts] = useState([]);
   const { user } = useContext(AuthContext);
-  console.log("user: ", user);
-  // const [isHandlePostOpen,setHandlePostOpen] = useState(false);
-
+  const fetchPosts = async () => {
+    const profileParams = new URLSearchParams({
+      token: user.token,
+      limit: 30,
+      user_id: userID,
+      offset: 0,
+    }).toString();
+    let url = "";
+    if (userID) {
+      url = `${process.env.REACT_APP_BASE_URL}/posts?` + profileParams;
+    } else {
+      url = `${process.env.REACT_APP_BASE_URL}/posts`;
+    }
+    const res = await axios.get(url);
+    setPosts(
+      res.data.result.sort((p1, p2) => {
+        return new Date(p2.createdAt) - new Date(p1.createdAt);
+      })
+    );
+  };
   useEffect(() => {
-    const fetchPosts = async () => {
-      const params = new URLSearchParams({
-        token: user.token,
-        limit: 30,
-        offset: 0,
-      }).toString();
-      const profileParams = new URLSearchParams({
-        token: user.token,
-        limit: 30,
-        user_id:userID,
-        offset: 0,
-      }).toString();
-      let url ='';
-      if(userID) {
-        url =
-        `${process.env.REACT_APP_BASE_URL}/posts?` + profileParams;
-      }else {
-        url =
-          `${process.env.REACT_APP_BASE_URL}/posts?` + params;
-      }
-      const res =  await axios.get(url) ;
-      console.log("res: ", res.data);
-      //  await axios.get("/posts/profile/" + username)
-      // : await axios.get("posts/timeline/" + user._id);
-      setPosts(
-        res.data.result.sort((p1, p2) => {
-          return new Date(p2.createdAt) - new Date(p1.createdAt);
-        })
-      );
-    };
     fetchPosts();
   }, [userID, user.token]);
 
@@ -59,7 +45,7 @@ export default function Feed({ userID }) {
     <>
       <div className="feed">
         <div className="feedWrapper">
-          {(!userID || userID === user.id) && <Share />}
+          {(!userID || userID === user.id) && <Share fetchPosts={fetchPosts} />}
 
           {posts.map((p) => (
             <Post key={p.id} post={p} />

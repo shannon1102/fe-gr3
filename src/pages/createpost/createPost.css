@@ -1,3 +1,8 @@
+.createPost{
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+}
+
 .createPost__title{
     padding: 20px 0px;
     border-bottom: 0.4px solid #414141;
@@ -33,3 +38,7 @@
     justify-content: center;
     align-items: center;
 } */
+.map__container{
+    display: flex;
+    width: 90%;
+}

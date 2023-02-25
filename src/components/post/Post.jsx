@@ -1,20 +1,17 @@
-import "./post.css";
-import { useContext, useEffect, useState } from "react";
+import { Typography } from "@material-ui/core";
 import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { format } from "timeago.js";
-import { Link, Route } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import PostHandlePopup from "./popup/PostHandlePopup";
-import { Switch, Typography } from "@material-ui/core";
-import { ChatBubbleOutline } from "@material-ui/icons";
-import CommentExpand from "./comment/CommentExpand";
 import PostMedia from "../postMedias/PostMedia";
-import { POST, getOptions } from "../../aixosHttpUitls";
+import CommentExpand from "./comment/CommentExpand";
+import PostHandlePopup from "./popup/PostHandlePopup";
+import "./post.css";
 require("dotenv").config();
 
 export default function Post({ post }) {
   const mediaUrl = `${process.env.REACT_APP_BASE_URL}/media`;
-
 
   const [like, setLike] = useState(post.like);
   const [isLiked, setIsLiked] = useState(post.isLiked);
@@ -48,7 +45,6 @@ export default function Post({ post }) {
     setLike(isLiked === "1" ? parseInt(like) - 1 : parseInt(like) + 1);
     setIsLiked(isLiked === "0" ? "1" : "0");
   };
-  console.log("postttttt", post);
   let postOneImgUrl = "";
   if (post.mediaMaps?.length === 1) {
     postOneImgUrl =
@@ -67,12 +63,28 @@ export default function Post({ post }) {
                 <Link to={`/profile/${user.id}`}>
                   <img
                     className="postProfileImg"
-                    src={user.avatar ? `${mediaUrl}/${user.avatar}` : PF + "person/noAvatar.png"}
+                    src={
+                      user.avatar
+                        ? `${mediaUrl}/${user.avatar}`
+                        : PF + "person/noAvatar.png"
+                    }
                     alt=""
                   />
                 </Link>
-                <span className="postUsername">{user.name}</span>
-                <span className="postDate">{format(post.createdAt)}</span>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    alignItems: "flex-start",
+                    marginLeft: "10px",
+                  }}
+                >
+                  <span className="postUsername">{user.name}</span>
+                  <span className="postDate" style={{ marginTop: "4px" }}>
+                    {format(post.createdAt)}
+                  </span>
+                </div>
               </div>
               <div className="postTopRight">
                 <PostHandlePopup
@@ -81,45 +93,18 @@ export default function Post({ post }) {
                 ></PostHandlePopup>
               </div>
             </div>
-            {/* <Link to={`/posts/${post.id}`}   post={post}>
-              <div className="postCenter" onClick={
-                ()=>{
-                 console.log("Clickkkkk");
-               
-                    // return   <PostDetail post={post}/>
-                    return <PostDetail post={post}></PostDetail>
-                  
-                }
-              }> */}
-                {post.description && (
-                  // <span className="postText">{post.described}</span>
-                  <Typography>{post.description}</Typography>
-                )}
-                {post.mediaMaps?.length === 1 && (
-                  <img
-                    className="postImg"
-                    src={postOneImgUrl}
-                    alt={post.description}
-                  />
-                )}
-
-                {post.mediaMaps?.length > 1 && (
-                  <PostMedia mediaMaps={post.mediaMaps}></PostMedia>
-                  // <PostDetail images={post.mediaMaps}></PostDetail>
-                )}
-                {post.video && (
-                  <video
-                    className="postVideo"
-                    width="750"
-                    height="700"
-                    controls
-                  >
-                    <source src={post.video.url} type="video/mp4" />
-                  </video>
-                )}
-              {/* </div> */}
-            {/* </Link> */}
-            {/* <hr className="sidebarHr" /> */}
+            {post.description && (
+              <Typography
+                style={{
+                  margin: "8px 20px 8px 20px",
+                }}
+              >
+                {post.description}
+              </Typography>
+            )}
+            {post.mediaMaps?.length > 0 && (
+              <PostMedia mediaMaps={post.mediaMaps}></PostMedia>
+            )}
             <div className="postBottom">
               <div className="postBottomLeft">
                 <img

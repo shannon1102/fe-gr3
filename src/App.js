@@ -20,6 +20,7 @@ import Market from "./pages/market/Market";
 import List from "./pages/list/List";
 import Hotel from "./pages/hotel/Hotel";
 import ChatBox from "./components/chatting/ChatBox";
+import "./global.css"
 require("dotenv").config();
 
 function App() {
@@ -75,13 +76,13 @@ function App() {
           redirectTo={"/login"}
           user={user}
         ></PrivateRoute>
-        <PrivateRoute path="/createpost">
-          <CreatePost user={user} />
-        </PrivateRoute>
+       
         <PrivateRoute path="/hotels/:id">
           <Hotel />
         </PrivateRoute >
-
+        <PrivateRoute path="/market/new">
+          <CreatePost user={user} />
+        </PrivateRoute>
         <PrivateRoute path="/market">
           <Market />
         </PrivateRoute>
