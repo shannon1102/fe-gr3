@@ -80,14 +80,17 @@
   color: rgb(224, 220, 220);
   cursor: default;
 }
-
+.chatMessageInput{
+  min-width: 600px !important;
+}
 @media screen and (max-width: 768px) {
   .chatMenu {
     flex: 1;
   }
 
-  .chatMenuInput {
+  .chatMessageInput {
     display: none;
+    min-width: 600px;
   }
 
   .chatBox{

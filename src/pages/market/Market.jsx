@@ -13,8 +13,8 @@ const Market = () => {
       <Header/>
       <div className="marketContainer">
         <Featured/>
-        <h1 className="marketTitle">Các loại hình nhả ở</h1>
-        <PropertyList/>
+        {/* <h1 className="marketTitle">Các loại hình nhả ở</h1>
+        <PropertyList/> */}
         <h1 className="marketTitle">Tin mới đăng</h1>
         <FeaturedProperties/>
         <MailList/>

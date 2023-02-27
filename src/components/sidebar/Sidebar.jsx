@@ -37,7 +37,7 @@ export default function Sidebar() {
             <span className="sidebarListItemText">Trang chủ</span>
           </li>
 
-          <Link to={`/message`} style={{ textDecoration: "none" }}>
+          <Link to={`/messenger`} style={{ textDecoration: "none" }}>
             <li className="sidebarListItem">
               <Chat className="sidebarIcon" />
               <span className="sidebarListItemText">Tin nhắn</span>

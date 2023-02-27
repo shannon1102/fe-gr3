@@ -27,13 +27,13 @@ const FeaturedProperties = () => {
           {data.map((item) => (
             <div className="fpItem" key={item.id}>
               <img
-                src={process.env.REACT_APP_MEDIA_URL + "/" +item.featureImage.id}
+                src={process.env.REACT_APP_MEDIA_URL + "/" + item.featureImage.id}
                 alt=""
                 className="fpImg"
               />
               <span className="fpName">{item.title}</span>
               <span className="fpCity">{item.description}</span>
-              <span className="fpPrice">Starting from ${item.price}</span>
+              <span className="fpPrice">{item.price || 1000000000} VNĐ</span>
               {item.rating && <div className="fpRating">
                 <button>{item.rating}</button>
                 <span>Excellent</span>

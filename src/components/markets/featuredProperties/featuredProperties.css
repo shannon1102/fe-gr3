@@ -9,7 +9,7 @@
 
 .fpItem{
   flex: 1;
-  max-width: 200px;
+  max-width: 250px;
   min-width: 200px;
   gap: 10px;
   display: flex;

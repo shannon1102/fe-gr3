@@ -8,7 +8,7 @@ import "./postMedia.css";
 export default function PostMedia({ mediaMaps }) {
   console.log("mediaMaps: ", mediaMaps);
   const getImageUrl = (mediaId) => {
-    return "http://103.130.214.19:4000/api/v1/media/" + mediaId;
+    return `${process.env.REACT_APP_MEDIA_URL}/` + mediaId;
   };
 
   const getMediaComponent = (media) => {

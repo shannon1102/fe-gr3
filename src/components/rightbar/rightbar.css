@@ -88,7 +88,7 @@
     margin-top: 30px;
     margin-bottom: 10px;
     border: none;
-    background-color: #1872f2;
+    background-color: #5F68D8;
     color: white;
     border-radius: 5px;
     padding: 5px 10px;
@@ -97,13 +97,14 @@
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
+    margin: 0 10px 0 0;
 }
 
 .rightbarChangInfoButton {
     margin-top: 30px;
     margin-bottom: 10px;
     border: none;
-    background-color: #1872f2;
+    background-color: #5F68D8;
     color: white;
     border-radius: 5px;
     padding: 5px 10px;
@@ -116,4 +117,8 @@
 
 .rightbarFollowButton:focus {
     outline: none;
+   
+}
+.rightBarBttn{
+    display: flex;
 }

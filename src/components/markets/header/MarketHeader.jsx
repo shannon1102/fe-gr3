@@ -45,7 +45,7 @@ const Header = ({ type }) => {
   };
 
   const handleSearch = () => {
-    history.push("/hotels", { state: { destination, date, options } });
+    history.push("/products", { state: { destination, date, options } });
   };
   const handleAddNewProduct  = () => {
     history.push("/market/new", { state: { destination, date, options } });
@@ -97,7 +97,7 @@ const Header = ({ type }) => {
                 <FontAwesomeIcon icon={faBed} className="marketHeaderIcon" />
                 <input
                   type="text"
-                  placeholder="Where are you going?"
+                  placeholder="Nhập địa điểm"
                   className="marketHeaderSearchInput"
                   onChange={(e) => setDestination(e.target.value)}
                 />
@@ -131,11 +131,15 @@ const Header = ({ type }) => {
                 <span
                   onClick={() => setOpenOptions(!openOptions)}
                   className="marketHeaderSearchText"
-                >{`${options.adult} adult · ${options.children} children · ${options.room} room`}</span>
+                >
+                  {/* {`Diện tích ${options.adult}  ·  Số phòng ngủ ${options.children}  Giá · ${options.room}`} */}
+                
+                  {`Diện tích,  Số phòng ngủ ,  Giá ,Số tầng ....`}
+                </span>
                 {openOptions && (
                   <div className="options">
                     <div className="optionItem">
-                      <span className="optionText">Adult</span>
+                      <span className="optionText">Diện tích max</span>
                       <div className="optionCounter">
                         <button
                           disabled={options.adult <= 1}
@@ -156,7 +160,7 @@ const Header = ({ type }) => {
                       </div>
                     </div>
                     <div className="optionItem">
-                      <span className="optionText">Children</span>
+                      <span className="optionText">Diện tích min</span>
                       <div className="optionCounter">
                         <button
                           disabled={options.children <= 0}
@@ -177,7 +181,7 @@ const Header = ({ type }) => {
                       </div>
                     </div>
                     <div className="optionItem">
-                      <span className="optionText">Room</span>
+                      <span className="optionText">Chiều dài max</span>
                       <div className="optionCounter">
                         <button
                           disabled={options.room <= 1}
@@ -198,7 +202,7 @@ const Header = ({ type }) => {
                       </div>
                     </div>
                     <div className="optionItem">
-                      <span className="optionText">Adult</span>
+                      <span className="optionText">Chiều dài min</span>
                       <div className="optionCounter">
                         <button
                           disabled={options.adult <= 1}
@@ -219,7 +223,7 @@ const Header = ({ type }) => {
                       </div>
                     </div>
                     <div className="optionItem">
-                      <span className="optionText">Children</span>
+                      <span className="optionText">Chiều rộng max</span>
                       <div className="optionCounter">
                         <button
                           disabled={options.children <= 0}
@@ -240,7 +244,7 @@ const Header = ({ type }) => {
                       </div>
                     </div>
                     <div className="optionItem">
-                      <span className="optionText">Room</span>
+                      <span className="optionText">Chiều rộng min</span>
                       <div className="optionCounter">
                         <button
                           disabled={options.room <= 1}
@@ -259,6 +263,7 @@ const Header = ({ type }) => {
                           +
                         </button>
                       </div>
+                      
                     </div>
                   </div>
                 )}

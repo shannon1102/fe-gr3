@@ -29,15 +29,15 @@ export default function Topbar({ isContainSearch }) {
             marginLeft: "30px",
           }}
         >
-          <img className="logo__img" src="assets/logo.png"></img>
-          <span className="logo">TroNet</span>
+          <img className="logo__img" src="/assets/logo.png"></img>
+          <span className="logo">NhaNet</span>
         </Link>
       </div>
        {isContainSearch && (
           <div className="searchbar">
             <Search className="searchIcon" />
             <input
-              placeholder="Tìm kiếm trên TroNet..."
+              placeholder="Tìm kiếm trên NhaNet..."
               className="searchInput"
             />
           </div>

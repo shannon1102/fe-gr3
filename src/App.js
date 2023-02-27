@@ -18,9 +18,11 @@ import CreatePost from "./pages/createpost/createPost";
 import PrivateRoute from "./shared/PrivateRoute";
 import Market from "./pages/market/Market";
 import List from "./pages/list/List";
-import Hotel from "./pages/hotel/Hotel";
+import Product from "./pages/hotel/Product";
 import ChatBox from "./components/chatting/ChatBox";
 import "./global.css"
+import Checkout from "./components/markets/checkout/Checkout";
+import Review from "./components/markets/checkout/Review";
 require("dotenv").config();
 
 function App() {
@@ -77,8 +79,8 @@ function App() {
           user={user}
         ></PrivateRoute>
        
-        <PrivateRoute path="/hotels/:id">
-          <Hotel />
+        <PrivateRoute path="/products/:id">
+          <Product />
         </PrivateRoute >
         <PrivateRoute path="/market/new">
           <CreatePost user={user} />
@@ -86,11 +88,17 @@ function App() {
         <PrivateRoute path="/market">
           <Market />
         </PrivateRoute>
-        <PrivateRoute path="/hotels">
+        <PrivateRoute path="/products">
           <List  />
         </PrivateRoute>
         <PrivateRoute path="/testcomponent">
           <ChatBox  />
+        </PrivateRoute>
+        <PrivateRoute path="/checkout">
+          <Checkout  />
+        </PrivateRoute>
+        <PrivateRoute path="/review">
+          <Review  />
         </PrivateRoute>
    
 

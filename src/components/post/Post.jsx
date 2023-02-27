@@ -48,8 +48,8 @@ export default function Post({ post }) {
   let postOneImgUrl = "";
   if (post.mediaMaps?.length === 1) {
     postOneImgUrl =
-      `${process.env.REACT_APP_NODEJS_BE_FILE_FOLDER}` +
-      post.mediaMaps[0].media.link;
+      `${process.env.REACT_APP_MEDIA_URL}/` +
+      post.mediaMaps[0].media.id;
     console.log("postImgUrl", postOneImgUrl);
   }
 

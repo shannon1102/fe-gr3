@@ -1,4 +1,4 @@
-import "./hotel.css";
+import "./product.css";
 import Header from "../../components/markets/header/MarketHeader";
 import MailList from "../../components/markets/mailList/MailList";
 import Footer from "../../components/markets/footer/MarketFooter";
@@ -12,11 +12,12 @@ import {
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import useFetch from "../../hooks/useFetch";
-import { useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import Reserve from "../../components/markets/reserve/Reserve";
+import SingleUser from "./SingleUser";
 
-const Hotel = () => {
+const Product = () => {
   const baseURL = `${process.env.REACT_APP_BASE_URL}`
   
 
@@ -145,19 +146,22 @@ const Hotel = () => {
             </div>
           )}
           <div className="hotelWrapper">
-            <button className="bookNow">Reserve or Book Now!</button>
+            {/* <Link to={`/messenger/${data.user.id}`}> */}
+            
+                {/* <button className="bookNow">Nhắn tin</button> */}
+            {/* </Link> */}
             <h1 className="hotelTitle">{data.name}</h1>
             <div className="hotelAddress">
               <FontAwesomeIcon icon={faLocationDot} />
               <span>{data.address}</span>
             </div>
             <span className="hotelDistance">
-              Excellent location – {data.distance}m from center
+              Địa chỉ:  – {data.distance}
             </span>
             <span className="hotelPriceHighlight">
-              Book a stay over ${data.cheapestPrice} at this property and get a
-              free airport taxi
+                Bán căn hộ Vinhomes Grand Park Quận Hai Bà Trưng
             </span>
+            <div className="productContainer">
             <div className="hotelImages">
               {data.media?.map((item, i) => (
                 <div className="hotelImgWrapper" key={i}>
@@ -170,25 +174,40 @@ const Hotel = () => {
                 </div>
               ))}
             </div>
+            <div>
+                <SingleUser></SingleUser>
+
+            </div>
+            </div>
+            
             <div className="hotelDetails">
               <div className="hotelDetailsTexts">
                 <h1 className="hotelTitle">{data.title}</h1>
-                <p className="hotelDesc">{data.desc}</p>
+                <p className="hotelDesc">{data.description}</p>
               </div>
               <div className="hotelDetailsPrice">
-                <h1>Perfect for a {days}-night stay!</h1>
+                {/* <h1></h1> */}
                 <span>
-                  Located in the real heart of Krakow, this property has an
-                  excellent location score of 9.8!
+                    Căn hộ siêu đẹp cạnh siêu thị Lotter, Nguyễn Tất Thành
                 </span>
                 <h2>
-                  <b>${days * data.cheapestPrice * options.room}</b> ({days}{" "}
-                  nights)
+                  <b>{ data.price ?? 100000000} VNĐ</b> ({days}{" "}
+                  )
                 </h2>
-                <button onClick={handleClick}>Reserve or Book Now!</button>
+                <button onClick={handleClick}>Đặt cọc ngay</button>
               </div>
             </div>
           </div>
+          <iframe
+                class="gmapIframeProductDtail"
+                width="100%"
+                frameborder="0"
+                scrolling="no"
+                marginheight="0"
+                marginwidth="0"
+                src="https://maps.google.com/maps?width=1200&amp;height=800&amp;hl=en&amp;q=Hà Nội&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+              ></iframe>
+          <br></br>
           <MailList />
           <Footer />
         </div>
@@ -197,4 +216,4 @@ const Hotel = () => {
     </div>
   );
 };
-export default Hotel;
+export default Product;

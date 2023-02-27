@@ -17,6 +17,17 @@ import {
 export default function Feed({ userID }) {
   const [posts, setPosts] = useState([]);
   const { user } = useContext(AuthContext);
+
+    const opts = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+  
+    opts.headers.Authorization = "Bearer " + user.token;
+    let a= userID;
+    console.log("AAAAAAAAAAAAAAAAAAAAA",a)
+  
   const fetchPosts = async () => {
     const profileParams = new URLSearchParams({
       token: user.token,
@@ -24,13 +35,15 @@ export default function Feed({ userID }) {
       user_id: userID,
       offset: 0,
     }).toString();
+    console.log("USERIDDDDDDDD",userID)
     let url = "";
     if (userID) {
-      url = `${process.env.REACT_APP_BASE_URL}/posts?` + profileParams;
+      url = `${process.env.REACT_APP_BASE_URL}/posts?userId=${userID}`;
     } else {
       url = `${process.env.REACT_APP_BASE_URL}/posts`;
     }
-    const res = await axios.get(url);
+    console.log("Base URL",url);
+    const res = await axios.get(url,opts);
     setPosts(
       res.data.result.sort((p1, p2) => {
         return new Date(p2.createdAt) - new Date(p1.createdAt);
