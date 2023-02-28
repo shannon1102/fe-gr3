@@ -23,6 +23,8 @@ import ChatBox from "./components/chatting/ChatBox";
 import "./global.css"
 import Checkout from "./components/markets/checkout/Checkout";
 import Review from "./components/markets/checkout/Review";
+
+import Deposit from "./pages/deposit/Deposit";
 require("dotenv").config();
 
 function App() {
@@ -100,6 +102,10 @@ function App() {
         <PrivateRoute path="/review">
           <Review  />
         </PrivateRoute>
+        <PrivateRoute path="/deposits">
+          <Deposit />
+        </PrivateRoute>
+   
    
 
       </Switch>
