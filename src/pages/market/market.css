@@ -4,9 +4,16 @@
   flex-direction: column;
   align-items: center;
   gap: 30px;
+  flex: 3;
 }
 
 .marketTitle{
-  width: 1024px;
+  /* width: 1024px; */
   font-size: 20px;
+}
+.filterProduct{
+  flex:1
+}
+.marketBody{
+  display: flex;
 }

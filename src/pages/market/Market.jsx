@@ -5,14 +5,29 @@ import Header from "../../components/markets/header/MarketHeader";
 import MailList from "../../components/markets/mailList/MailList";
 import PropertyList from "../../components/markets/propertyList/PropertyList";
 import "./market.css";
-
+import Topbar from "../../components/topbar/Topbar";
+import Sidebar from "../../components/sidebar/Sidebar";
+import Rightbar from "../../components/rightbar/ProfileRightbar";
+import TopSlideshow from "../../components/topSlideShow/TopSlideshow"
+import FilterProduct from "../../components/markets/filterDrawer/FilterProduct";
 const Market = () => {
   return (
     <div>
       {/* <Navbar /> */}
-      <Header/>
+      <Topbar></Topbar>
+      <TopSlideshow></TopSlideshow>
+      
+      {/* <Header/> */}
+      <div className="marketBody">
+      <div className="filterProduct">
+        <FilterProduct></FilterProduct>
+
+
+      </div>
+       
       <div className="marketContainer">
-        <Featured/>
+        
+        {/* <Featured/> */}
         {/* <h1 className="marketTitle">Các loại hình nhả ở</h1>
         <PropertyList/> */}
         <h1 className="marketTitle">Tin mới đăng</h1>
@@ -20,6 +35,10 @@ const Market = () => {
         <MailList/>
         <Footer/>
       </div>
+
+      </div>
+ 
+ 
     </div>
   );
 };

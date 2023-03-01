@@ -8,6 +8,7 @@ import { DateRange } from "react-date-range";
 import SearchItem from "../../components/markets/searchItem/SearchItem";
 import useFetch from "../../hooks/useFetch";
 import { AuthContext } from "../../context/AuthContext";
+import Topbar from "../../components/topbar/Topbar";
 
 const List = () => {
   const baseURL = `${process.env.REACT_APP_BASE_URL}`;
@@ -44,7 +45,8 @@ const List = () => {
 
   return (
     <div>
-      <Header type="list" />
+      {/* <Header type="list" /> */}
+      <Topbar></Topbar>
       <div className="listContainer">
         <div className="listWrapper">
           <div className="listSearch">

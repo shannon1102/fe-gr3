@@ -13,12 +13,13 @@
 
 .listSearch {
   flex: 1;
-  background-color: #febb02;
+  background-color: #b8a753;
   padding: 10px;
   border-radius: 10px;
   position: sticky;
   top: 10px;
   height: max-content;
+  z-index: -1;
 }
 
 .lsTitle{

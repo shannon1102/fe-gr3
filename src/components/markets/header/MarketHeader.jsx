@@ -102,30 +102,6 @@ const Header = ({ type }) => {
                   onChange={(e) => setDestination(e.target.value)}
                 />
               </div>
-              {/* <div className="marketHeaderSearchItem">
-                <FontAwesomeIcon icon={faCalendarDays} className="marketHeaderIcon" />
-                <span
-                  onClick={() => setOpenDate(!openDate)}
-                  className="marketHeaderSearchText"
-                >{`${format(date[0].startDate, "MM/dd/yyyy")} to ${format(
-                  date[0].endDate,
-                  "MM/dd/yyyy"
-                )}`}</span> */}
-                {/* {openDate && (
-                  <DateRange
-                    editableDateInputs={true}
-                    onChange={(item) => {
-                    console.log("item.selection",item.selection)
-                      return  setDate([item.selection])
-                    }
-                  }
-                    moveRangeOnFirstSelection={false}
-                    ranges={date}
-                    className="date"
-                    minDate={new Date()}
-                  />
-                )} */}
-              {/* </div> */}
               <div className="marketHeaderSearchItem">
                 <FontAwesomeIcon icon={faPerson} className="marketHeaderIcon" />
                 <span
